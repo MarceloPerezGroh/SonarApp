@@ -1,0 +1,18 @@
+?? Dónde quedaste parado (resumen corto)
+
+Tenés:
+
+? Arquitectura definida
+
+? Estructura de carpetas correcta
+
+? Prisma listo
+
+? Configuración base (server, env, errores)
+
+? Commit limpio y con sentido
+
+//solucion
+git rm -r --cached node_modules
+
+
