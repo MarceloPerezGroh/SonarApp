@@ -1,0 +1,69 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  displayName  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relaciones
+  playlists    Playlist[]
+}
+
+model Song {
+  id           String          @id @default(uuid())
+  title        String
+  durationMs   Int
+  artist       String?
+  album        String?
+  releasedAt   DateTime?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  // Relaciones
+  playlistTracks PlaylistTrack[]
+}
+
+model Playlist {
+  id          String         @id @default(uuid())
+  name        String
+  description String?
+  ownerId     String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  // Relaciones
+  owner   User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  tracks  PlaylistTrack[]
+
+  @@index([ownerId])
+}
+
+model PlaylistTrack {
+  // Clave compuesta y orden
+  playlistId String
+  songId     String
+  position   Int
+  addedAt    DateTime @default(now())
+
+  // Relaciones
+  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  song     Song     @relation(fields: [songId], references: [id], onDelete: Restrict)
+
+  // Constraints
+  @@id([playlistId, songId])               // Evita duplicar la misma canción en una playlist
+  @@unique([playlistId, position])         // Mantiene posiciones únicas dentro de la playlist
+  @@index([playlistId, position])          // Optimiza consultas por orden en una playlist
+  @@index([songId])                        // Optimiza consultas por canciones en playlists
+}
