@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // Definición del esquema de variables de entorno
 const envSchema = z.object({
-  PORT: z.string().transform(Number).default("3000"),
+  PORT: z.coerce.number().default(3000),
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
 
   DATABASE_URL: z.string().min(1, "DATABASE_URL es requerido"),

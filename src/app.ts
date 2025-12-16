@@ -1,15 +1,19 @@
-import express from "express";
-import cors from "cors";
-import { errorHandler } from "./middlewares/error.middleware";
+import express, { Request, Response, NextFunction } from 'express'
+import authRoutes from './routes/auth.routes'
 
-const app = express();
+const app = express()
 
-app.use(cors());
-app.use(express.json());
+app.use(express.json())
 
-// ... aquí irían las rutas
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok' })
+})
 
-// Middleware global de errores (último en la cadena)
-app.use(errorHandler);
+app.use('/auth', authRoutes)
 
-export default app;
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err.stack)
+  res.status(500).json({ error: 'Internal Server Error' })
+})
+
+export default app

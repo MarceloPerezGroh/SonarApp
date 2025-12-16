@@ -1,4 +1,5 @@
-?? Dónde quedaste parado (resumen corto)
+DIA 1
+Dónde quedaste parado (resumen corto)
 
 Tenés:
 
@@ -14,5 +15,18 @@ Tenés:
 
 //solucion
 git rm -r --cached node_modules
+----------------------------------------------------------------------------------
+//DIA 2
+róximo checkpoint
 
+Cuando register funcione:
 
+probamos login
+
+emitimos JWT
+
+protegemos una ruta
+
+recién ahí playlists
+
+Probá el POST /auth/register y contame qué devuelve.
