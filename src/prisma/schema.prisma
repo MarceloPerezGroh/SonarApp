@@ -50,6 +50,7 @@ model Playlist {
   @@index([ownerId])
 }
 
+
 model PlaylistTrack {
   // Clave compuesta y orden
   playlistId String

@@ -5,5 +5,5 @@ const prisma = new PrismaClient({
   log: ["query", "info", "warn", "error"], // Opcional: útil en desarrollo
 });
 
-// Exportar la instancia para usarla en services
+// Exportar la instancia para usarla en services y rutas
 export default prisma;

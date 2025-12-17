@@ -1,42 +1,33 @@
-// src/middlewares/auth.middleware.ts
+// src/middlewares/authMiddleware.ts
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-
-interface AuthenticatedRequest extends Request {
-  user?: {
-    id: string;
-    email?: string;
-  };
+// Extender la interfaz Request para incluir user
+declare global {
+  namespace Express {
+    interface Request {
+      user?: { userId: string };
+    }
+  }
 }
 
-export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+export function authMiddleware(req: Request, res: Response, next: NextFunction) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Token ausente o inválido" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
   try {
-    const authHeader = req.headers['authorization'];
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      res.status(401).json({ error: 'Authorization header missing or malformed' });
-      return;
-    }
-
-    const token = authHeader.split(' ')[1];
-    if (!process.env.JWT_SECRET) {
-      throw new Error('JWT_SECRET must be defined in environment variables');
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload & { sub?: string; email?: string };
-
-    if (!decoded || !decoded.sub) {
-      res.status(401).json({ error: 'Invalid token payload' });
-      return;
-    }
-
-    req.user = {
-      id: decoded.sub,
-      email: decoded.email,
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      userId: string;
     };
 
+    req.user = { userId: decoded.userId };
     next();
-  } catch (error) {
-    res.status(401).json({ error: 'Unauthorized: ' + (error as Error).message });
+  } catch {
+    return res.status(401).json({ error: "Token inválido o expirado" });
   }
-};
+}
