@@ -1,5 +1,6 @@
 import express from "express";
-import authRoutes from "./routes/auth";
+import authRoutes from "./routes/auth.routes";
+import playlistRoutes from "./routes/playlist.routes"; // 👈 nuevo import
 
 const app = express();
 
@@ -10,5 +11,6 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/", playlistRoutes); // 👈 monta las rutas de playlists
 
 export default app;
