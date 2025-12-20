@@ -13,7 +13,8 @@ export const createPlaylist = async (req: Request, res: Response) => {
       });
     }
 
-    const ownerId = req.user?.userId;
+    const ownerId = req.user?.id;
+
     if (!ownerId) {
       return res.status(401).json({ error: "Token inválido" });
     }
@@ -31,18 +32,31 @@ export const createPlaylist = async (req: Request, res: Response) => {
 };
 
 // Obtener playlists del usuario autenticado
+// src/controllers/playlist.controller.ts
+
 export const getPlaylists = async (req: Request, res: Response) => {
   try {
-    const ownerId = req.user?.userId;
+    const ownerId = req.user?.id;
     if (!ownerId) {
       return res.status(401).json({ error: "Token inválido" });
     }
 
-    const playlists = await playlistService.getUserPlaylists(ownerId);
+    // Parámetros de paginación con defaults
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const { total, playlists } = await playlistService.getUserPlaylists(
+      ownerId,
+      page,
+      limit
+    );
 
     return res.status(200).json({
       message: "Playlists del usuario autenticado",
-      count: playlists.length,
+      total,
+      page,
+      limit,
+      results: playlists.length,
       playlists,
     });
   } catch (err) {
@@ -51,10 +65,12 @@ export const getPlaylists = async (req: Request, res: Response) => {
   }
 };
 
+
 // Agregar canción a playlist
 export const addSongToPlaylist = async (req: Request, res: Response) => {
   try {
-    const ownerId = req.user?.userId;
+    const ownerId = req.user?.id;
+
     if (!ownerId) {
       return res.status(401).json({ error: "Token inválido" });
     }
@@ -85,9 +101,11 @@ export const addSongToPlaylist = async (req: Request, res: Response) => {
 };
 
 // Obtener canciones de una playlist
+
+
 export const getPlaylistSongs = async (req: Request, res: Response) => {
   try {
-    const ownerId = req.user?.userId;
+    const ownerId = req.user?.id;
     if (!ownerId) {
       return res.status(401).json({ error: "Token inválido" });
     }
@@ -109,3 +127,63 @@ export const getPlaylistSongs = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 };
+
+
+// Eliminar canción de una playlist
+export const deleteSongFromPlaylist = async (req: Request, res: Response) => {
+  try {
+    const ownerId = req.user?.id; // 👈 usamos id, no userId
+    if (!ownerId) {
+      return res.status(401).json({ error: "Token inválido" });
+    }
+
+    const { playlistId, songId } = req.params;
+
+    const updatedPlaylist = await playlistService.deleteSongFromPlaylist(playlistId, ownerId, songId);
+
+    return res.status(200).json({
+      message: "Canción eliminada y posiciones reordenadas",
+      playlist: updatedPlaylist,
+    });
+  } catch (err: any) {
+    console.error(err);
+    if (err.message.includes("No autorizado")) {
+      return res.status(403).json({ error: err.message });
+    }
+    if (err.message.includes("no encontrada")) {
+      return res.status(404).json({ error: err.message });
+    }
+    return res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+//eliminar playlist
+
+export const deletePlaylist = async (req: Request, res: Response) => {
+  try {
+    const ownerId = req.user?.id; // uuid del usuario autenticado
+    if (!ownerId) {
+      return res.status(401).json({ error: "Token inválido" });
+    }
+
+    const { id: playlistId } = req.params;
+
+    await playlistService.deletePlaylist(playlistId, ownerId);
+
+    return res.status(200).json({
+      message: "Playlist eliminada exitosamente",
+      playlistId,
+    });
+  } catch (err: any) {
+    console.error(err);
+    if (err.message.includes("No autorizado")) {
+      return res.status(403).json({ error: err.message });
+    }
+    if (err.message.includes("no encontrada")) {
+      return res.status(404).json({ error: err.message });
+    }
+    return res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+

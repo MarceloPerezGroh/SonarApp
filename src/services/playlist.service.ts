@@ -1,4 +1,5 @@
-import prisma from "../prisma/client";
+// src/services/playlist.service.ts
+import { prisma } from "../lib/prisma";
 import { PlaylistInput } from "../schemas/playlist.schema";
 
 // Crear playlist
@@ -13,8 +14,11 @@ export const createPlaylist = async (ownerId: string, data: PlaylistInput) => {
 };
 
 // Agregar canción al final de la playlist (versión única y robusta)
-export const addSongToPlaylist = async (playlistId: string, ownerId: string, songId: string) => {
-  // 1. Verificar que la playlist pertenezca al usuario
+export const addSongToPlaylist = async (
+  playlistId: string,
+  ownerId: string,
+  songId: string
+) => {
   const playlist = await prisma.playlist.findUnique({
     where: { id: playlistId },
     select: { ownerId: true },
@@ -24,18 +28,14 @@ export const addSongToPlaylist = async (playlistId: string, ownerId: string, son
     throw new Error("No autorizado: la playlist no pertenece al usuario");
   }
 
-  // 2. Evitar duplicados
   const existingTrack = await prisma.playlistTrack.findUnique({
-    where: {
-      playlistId_songId: { playlistId, songId },
-    },
+    where: { playlistId_songId: { playlistId, songId } },
   });
 
   if (existingTrack) {
     throw new Error("La canción ya está en la playlist");
   }
 
-  // 3. Calcular posición incremental (última posición + 1)
   const lastTrack = await prisma.playlistTrack.findFirst({
     where: { playlistId },
     orderBy: { position: "desc" },
@@ -43,34 +43,44 @@ export const addSongToPlaylist = async (playlistId: string, ownerId: string, son
 
   const nextPosition = lastTrack ? lastTrack.position + 1 : 0;
 
-  // 4. Insertar canción
   return prisma.playlistTrack.create({
     data: {
       playlistId,
       songId,
       position: nextPosition,
     },
-    include: {
-      song: true,
-    },
+    include: { song: true },
   });
 };
 
 // Reordenar canciones dentro de una playlist
 export const reorderSongs = async (playlistId: string, orderedSongIds: string[]) => {
-  const updates = orderedSongIds.map((songId, index) =>
-    prisma.playlistTrack.update({
-      where: { playlistId_songId: { playlistId, songId } },
-      data: { position: index },
-    })
+  return prisma.$transaction(
+    orderedSongIds.map((songId, index) =>
+      prisma.playlistTrack.update({
+        where: { playlistId_songId: { playlistId, songId } },
+        data: { position: index },
+      })
+    )
   );
-  return Promise.all(updates);
 };
 
-// Obtener playlists del usuario autenticado
-export const getUserPlaylists = async (ownerId: string) => {
-  return prisma.playlist.findMany({
+// Obtener playlists del usuario autenticado con paginación
+export const getUserPlaylists = async (
+  ownerId: string,
+  page: number = 1,
+  limit: number = 10
+) => {
+  const skip = (page - 1) * limit;
+
+  const total = await prisma.playlist.count({
     where: { ownerId },
+  });
+
+  const playlists = await prisma.playlist.findMany({
+    where: { ownerId },
+    skip,
+    take: limit,
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
@@ -95,11 +105,12 @@ export const getUserPlaylists = async (ownerId: string) => {
       },
     },
   });
+
+  return { total, page, limit, playlists };
 };
 
 // Obtener canciones de una playlist del usuario autenticado
 export const getPlaylistSongs = async (playlistId: string, ownerId: string) => {
-  // 1. Verificar que la playlist pertenezca al usuario
   const playlist = await prisma.playlist.findUnique({
     where: { id: playlistId },
     select: { ownerId: true },
@@ -109,7 +120,6 @@ export const getPlaylistSongs = async (playlistId: string, ownerId: string) => {
     throw new Error("No autorizado: la playlist no pertenece al usuario");
   }
 
-  // 2. Obtener canciones ordenadas por position
   return prisma.playlistTrack.findMany({
     where: { playlistId },
     orderBy: { position: "asc" },
@@ -127,3 +137,64 @@ export const getPlaylistSongs = async (playlistId: string, ownerId: string) => {
     },
   });
 };
+
+// Eliminar canción de una playlist
+export async function deleteSongFromPlaylist(
+  playlistId: string,
+  ownerId: string,
+  songId: string
+) {
+  const playlist = await prisma.playlist.findUnique({
+    where: { id: playlistId },
+    include: { tracks: true },
+  });
+
+  if (!playlist) throw new Error("Playlist no encontrada");
+  if (playlist.ownerId !== ownerId) throw new Error("No autorizado");
+
+  await prisma.playlistTrack.delete({
+    where: { playlistId_songId: { playlistId, songId } },
+  });
+
+  const remainingTracks = await prisma.playlistTrack.findMany({
+    where: { playlistId },
+    orderBy: { position: "asc" },
+  });
+
+  await prisma.$transaction(
+    remainingTracks.map((track, index) =>
+      prisma.playlistTrack.update({
+        where: { playlistId_songId: { playlistId, songId: track.songId } },
+        data: { position: index },
+      })
+    )
+  );
+
+  return prisma.playlist.findUnique({
+    where: { id: playlistId },
+    include: {
+      tracks: { include: { song: true }, orderBy: { position: "asc" } },
+    },
+  });
+}
+
+// Eliminar playlist y sus relaciones
+export async function deletePlaylist(playlistId: string, ownerId: string) {
+  const playlist = await prisma.playlist.findUnique({
+    where: { id: playlistId },
+    select: { ownerId: true },
+  });
+
+  if (!playlist) throw new Error("Playlist no encontrada");
+  if (playlist.ownerId !== ownerId) throw new Error("No autorizado");
+
+  await prisma.playlistTrack.deleteMany({
+    where: { playlistId },
+  });
+
+  await prisma.playlist.delete({
+    where: { id: playlistId },
+  });
+
+  return true;
+}

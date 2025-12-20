@@ -1,15 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-// Extender la interfaz Request para incluir user
-declare global {
-  namespace Express {
-    interface Request {
-      user?: { userId: string };
-    }
-  }
-}
-
 export function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
 
@@ -21,14 +12,15 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload & {
-      userId: string;
+      id: string;   // 👈 uuid, no number
+      email: string;
     };
 
-    if (!decoded.userId) {
-      return res.status(401).json({ error: "Token inválido: falta userId" });
+    if (!decoded.id) {
+      return res.status(401).json({ error: "Token inválido: falta id" });
     }
 
-    req.user = { userId: decoded.userId };
+    req.user = { id: decoded.id, email: decoded.email };
     next();
   } catch (err) {
     return res.status(401).json({ error: "Token inválido o expirado" });

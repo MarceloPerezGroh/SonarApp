@@ -1,5 +1,3 @@
-// schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -44,15 +42,13 @@ model Playlist {
   updatedAt   DateTime       @updatedAt
 
   // Relaciones
-  owner   User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner   User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   tracks  PlaylistTrack[]
 
   @@index([ownerId])
 }
 
-
 model PlaylistTrack {
-  // Clave compuesta y orden
   playlistId String
   songId     String
   position   Int

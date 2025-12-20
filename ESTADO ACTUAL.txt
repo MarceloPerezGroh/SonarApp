@@ -30,3 +30,7 @@ protegemos una ruta
 recién ahí playlists
 
 Probá el POST /auth/register y contame qué devuelve.
+/////////////////////
+git commit -m "commit 1"  
+
+git push origin main
