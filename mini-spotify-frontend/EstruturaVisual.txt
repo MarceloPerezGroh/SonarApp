@@ -1,0 +1,57 @@
+//ESTRUCTURA DEL FROMT 
+
+
+src/
+  ├── hooks/          # Custom hooks reutilizables
+  │    ├── useAuth.ts         # Manejo de sesión y JWT
+  │    ├── usePlaylists.ts    # Lógica de playlists (listar, crear, etc.)
+  │    └── useTestApi.ts      # Hook de prueba de conexión al backend
+  │
+  ├── services/       # Acceso a APIs y lógica externa
+  │    ├── api/
+  │    │    └── client.ts     # Configuración de Axios (baseURL, headers)
+  │    └── authService.ts     # Funciones para login/register
+  │    └── playlistService.ts # Funciones para CRUD de playlists
+  │
+  ├── pages/          # Vistas completas (pantallas)
+  │    ├── LoginPage.tsx      # Página de login
+  │    ├── PlaylistsPage.tsx  # Página principal con lista y formulario
+  │    └── HomePage.tsx       # Landing inicial (Mini Spotify)
+  │
+  ├── components/     # Componentes UI reutilizables
+  │    ├── LoginForm.tsx      # Formulario de login
+  │    ├── PlaylistForm.tsx   # Formulario para crear playlists
+  │    ├── PlaylistsList.tsx  # Lista de playlists
+  │    └── ProtectedRoute.tsx # Wrapper para rutas protegidas
+  │
+  ├── assets/         # Imágenes, íconos, fuentes
+  │    ├── react.svg
+  │    └── vite.svg
+  │
+  ├── App.tsx         # Componente raíz
+  ├── main.tsx        # Punto de entrada
+  └── App.css         # Estilos globales
+  
+  
+//EXPLICACION DE CADA UNA
+Explicación de carpetas
+hooks/  
+Contiene custom hooks que encapsulan lógica de estado y efectos. Ejemplo: useAuth para manejar el token y sesión, usePlaylists para interactuar con playlists.
+
+services/  
+Aquí van las funciones que hablan con el backend (API REST). Se separa la lógica de red de los componentes. Ejemplo: authService para login/register, playlistService para crear/listar playlists.
+
+pages/  
+Representan pantallas completas de la aplicación. Cada página combina varios componentes y hooks para formar una vista. Ejemplo: LoginPage, PlaylistsPage.
+
+components/  
+Componentes reutilizables y más pequeños, como formularios, listas, botones, rutas protegidas. No contienen lógica de negocio pesada, solo UI + props.
+
+assets/  
+Recursos estáticos como imágenes, íconos y fuentes.
+
+App.tsx  / main.tsx  
+Punto de entrada y componente raíz de la aplicación.
+
+App.css  
+Estilos globales compartidos por toda la app.

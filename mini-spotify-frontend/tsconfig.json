@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "ESNext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],   // 👈 incluye DOM.Iterable para map, forEach en NodeList, etc.
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
@@ -12,7 +12,9 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "jsx": "react-jsx"   // 👈 clave para que reconozca <div>, <p>, etc.
+    "jsx": "react-jsx",                         // 👈 soporte JSX moderno
+    "skipLibCheck": true                        // 👈 evita errores molestos en librerías externas
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules"]                   // 👈 excluye node_modules para compilar más rápido
 }

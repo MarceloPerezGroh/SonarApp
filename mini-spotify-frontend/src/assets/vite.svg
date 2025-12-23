@@ -1,0 +1,12 @@
+import viteLogo from "./assets/vite.svg";
+
+<svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 256 257">
+  <defs>
+    <linearGradient id="vite-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#41D1FF"/>
+      <stop offset="100%" stop-color="#BD34FE"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#vite-grad)" d="M255.5 37.9L134.6 252.6c-2.7 4.8-9.5 4.8-12.2 0L.5 37.9c-2.9-5.1 1-11.5 6.6-11.5h241.8c5.6 0 9.5 6.4 6.6 11.5z"/>
+  <path fill="#FFEA83" d="M185.5 0l-92.5 200.5-41.5-90.5h41.5L185.5 0z"/>
+</svg>
