@@ -1,4 +1,3 @@
-// src/services/playlist.service.ts
 import { prisma } from "../lib/prisma";
 import { PlaylistInput } from "../schemas/playlist.schema";
 
@@ -13,7 +12,7 @@ export const createPlaylist = async (ownerId: string, data: PlaylistInput) => {
   });
 };
 
-// Agregar canción al final de la playlist (versión única y robusta)
+// Agregar canción al final de la playlist
 export const addSongToPlaylist = async (
   playlistId: string,
   ownerId: string,
@@ -54,8 +53,29 @@ export const addSongToPlaylist = async (
 };
 
 // Reordenar canciones dentro de una playlist
-export const reorderSongs = async (playlistId: string, orderedSongIds: string[]) => {
-  return prisma.$transaction(
+export const reorderSongs = async (
+  playlistId: string,
+  ownerId: string,
+  orderedSongIds: string[]
+) => {
+  const playlist = await prisma.playlist.findUnique({
+    where: { id: playlistId },
+    include: { tracks: true },
+  });
+
+  if (!playlist) throw new Error("Playlist no encontrada");
+  if (playlist.ownerId !== ownerId) throw new Error("No autorizado");
+
+  const existingSongIds = playlist.tracks.map(t => t.songId);
+  const sameSet =
+    orderedSongIds.length === existingSongIds.length &&
+    orderedSongIds.every(id => existingSongIds.includes(id));
+
+  if (!sameSet) {
+    throw new Error("songIds no coincide con las canciones de la playlist");
+  }
+
+  await prisma.$transaction(
     orderedSongIds.map((songId, index) =>
       prisma.playlistTrack.update({
         where: { playlistId_songId: { playlistId, songId } },
@@ -63,6 +83,13 @@ export const reorderSongs = async (playlistId: string, orderedSongIds: string[])
       })
     )
   );
+
+  return prisma.playlist.findUnique({
+    where: { id: playlistId },
+    include: {
+      tracks: { include: { song: true }, orderBy: { position: "asc" } },
+    },
+  });
 };
 
 // Obtener playlists del usuario autenticado con paginación

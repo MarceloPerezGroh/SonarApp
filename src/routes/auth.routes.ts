@@ -30,9 +30,9 @@ router.post("/register", async (req: Request, res: Response) => {
     const { email, password } = parsed.data;
     const user = await authService.register(email, password);
 
-    return res.status(201).json(user);
-  } catch (err: any) {
-    if (err.message === "Email already registered") {
+    return res.status(201).json({ user });
+  } catch (err: unknown) {
+    if (err instanceof Error && err.message === "Email already registered") {
       return res.status(409).json({ error: err.message });
     }
     console.error(err);
@@ -55,8 +55,8 @@ router.post("/login", async (req: Request, res: Response) => {
     const { user, token } = await authService.login(email, password);
 
     return res.json({ user, token });
-  } catch (err: any) {
-    if (err.message === "Invalid credentials") {
+  } catch (err: unknown) {
+    if (err instanceof Error && err.message === "Invalid credentials") {
       return res.status(401).json({ error: err.message });
     }
     console.error(err);
@@ -65,3 +65,4 @@ router.post("/login", async (req: Request, res: Response) => {
 });
 
 export default router;
+
