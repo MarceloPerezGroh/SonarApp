@@ -1,12 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { useTestApi } from './hooks/useTestApi'   // 👈 importamos el hook
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { useTestApi } from "./hooks/useTestApi";
+import { useAuth } from "./hooks/useAuth";
+import LoginForm from "./components/LoginForm";
+import PlaylistsForm from "./components/playlistForm"; // 👈 nombre corregido
 
 function App() {
-  const [count, setCount] = useState(0)
-  const backendStatus = useTestApi()              // 👈 usamos el hook
+  const [count, setCount] = useState(0);
+  const backendStatus = useTestApi();
+  const { token } = useAuth();
 
   return (
     <>
@@ -18,7 +22,9 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+
+      <h1>Mini Spotify 🎵</h1>
+
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -27,14 +33,28 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
+
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
 
-      {/* 👇 Aquí mostramos el resultado del backend */}
+      {/* 👇 Test de conexión al backend */}
       <p>Backend test: {backendStatus}</p>
+
+      {/* 👇 Lógica funcional del Día 7 */}
+      <div className="main-section">
+        {!token ? (
+          <LoginForm />
+        ) : (
+          <PlaylistsForm
+            onCreated={(playlist) => {
+              console.log("Nueva playlist creada:", playlist);
+            }}
+          />
+        )}
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

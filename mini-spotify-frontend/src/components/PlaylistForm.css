@@ -1,0 +1,13 @@
+/* src/components/PlaylistForm.css */
+.playlist-form {
+  margin-top: 1rem;
+}
+
+.playlist-form input {
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.playlist-form button {
+  padding: 0.5rem 1rem;
+}

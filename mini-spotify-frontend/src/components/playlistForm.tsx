@@ -3,8 +3,13 @@ import api from "../api/client";
 import { useAuth } from "../auth/authContext";
 import "./PlaylistForm.css";   // 👈 importamos el CSS
 
+interface Playlist {
+  id: string;
+  name: string;
+}
+
 interface Props {
-  onCreated: (playlist: { id: string; name: string }) => void;
+  onCreated: (playlist: Playlist) => void;
 }
 
 function PlaylistForm({ onCreated }: Props) {
@@ -17,7 +22,7 @@ function PlaylistForm({ onCreated }: Props) {
     setError("");
 
     try {
-      const res = await api.post(
+      const res = await api.post<Playlist>(
         "/playlists",
         { name },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -30,7 +35,7 @@ function PlaylistForm({ onCreated }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="playlist-form">
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -38,7 +43,7 @@ function PlaylistForm({ onCreated }: Props) {
         required
       />
       <button type="submit">Crear</button>
-      {error && <p className="error">{error}</p>} {/* 👈 usamos la clase */}
+      {error && <p className="error">{error}</p>}
     </form>
   );
 }
