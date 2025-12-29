@@ -1,64 +1,77 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
-
-import { useTestApi } from "./hooks/useTestApi";
+// src/App.tsx
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
+import { useTestApi } from "./hooks/useTestApi";
 
 import LoginForm from "./components/LoginForm";
-import PlaylistsForm from "./components/playlistForm";   // 👈 PascalCase consistente
-import PlaylistsList from "./components/playlistList";   // 👈 PascalCase consistente
+import PlaylistForm from "./components/playlistForm";
+import PlaylistList from "./components/playlistList";
+
+function LoginPage() {
+  return (
+    <div className="login-page">
+      <h1>Mini Spotify 🎵</h1>
+      <LoginForm />
+    </div>
+  );
+}
+
+function DashboardPage() {
+  const { logout } = useAuth();
+  const backendStatus = useTestApi();
+
+  return (
+    <div className="dashboard-page">
+      <header className="app-header">
+        <h1 className="app-title">Mini Spotify 🎵</h1>
+        <div className="header-right">
+          <p className="backend-status">Backend: {backendStatus}</p>
+          <button className="logout-btn" onClick={logout}>
+            Logout
+          </button>
+        </div>
+      </header>
+
+      <main className="main-section">
+        <PlaylistForm
+           onCreated={(playlist) => {
+             console.log("Nueva playlist creada:", playlist);
+        }}
+      />
+      <PlaylistList />
+
+      </main>
+    </div>
+  );
+}
 
 function App() {
-  const [count, setCount] = useState(0);
-  const backendStatus = useTestApi();
   const { token } = useAuth();
 
   return (
-    <>
-      {/* Logos */}
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
+    <Routes>
+      {/* Página raíz */}
+      <Route
+        path="/"
+        element={<Navigate to={token ? "/app" : "/login"} />}
+      />
 
-      {/* Título */}
-      <h1>Mini Spotify 🎵</h1>
+      {/* Página de login */}
+      <Route path="/login" element={<LoginPage />} />
 
-      {/* Contador de prueba */}
-      <div className="card">
-        <button onClick={() => setCount((c) => c + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
+      {/* Página protegida */}
+      <Route
+        path="/app"
+        element={token ? <DashboardPage /> : <Navigate to="/login" />}
+      />
 
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-
-      {/* Test de conexión al backend */}
-      <p>Backend test: {backendStatus}</p>
-
-      {/* Sección principal: login o playlists */}
-      <div className="main-section">
-        {!token ? (
-          <LoginForm />
-        ) : (
-          <>
-            <PlaylistsForm
-              onCreated={(playlist) => {
-                console.log("Nueva playlist creada:", playlist);
-              }}
-            />
-            <PlaylistsList />
-          </>
-        )}
-      </div>
-    </>
+      {/* Redirección por defecto */}
+      <Route
+        path="*"
+        element={<Navigate to={token ? "/app" : "/login"} />}
+      />
+    </Routes>
   );
 }
 

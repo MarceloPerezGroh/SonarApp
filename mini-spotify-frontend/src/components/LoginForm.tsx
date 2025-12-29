@@ -1,37 +1,61 @@
-// src/components/LoginForm.tsx
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 
-export default function LoginForm() {
+function LoginForm() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     try {
       await login(email, password);
-      alert("Login exitoso ✅");
-    } catch (err) {
-      alert("Error en login ❌");
+      // redirección automática la maneja el hook o router
+    } catch (err: any) {
+      setError("Credenciales inválidas o error de conexión");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
+    <form className="login-form" onSubmit={handleSubmit}>
+      <h2>Iniciar sesión</h2>
+
+      <label>
+        Email
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
+          required
+        />
+      </label>
+
+      <label>
+        Contraseña
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={loading}
+          required
+        />
+      </label>
+
+      {error && <p className="error-message">{error}</p>}
+
+      <button type="submit" disabled={loading}>
+        {loading ? "Ingresando..." : "Login"}
+      </button>
     </form>
   );
 }
+
+export default LoginForm;
