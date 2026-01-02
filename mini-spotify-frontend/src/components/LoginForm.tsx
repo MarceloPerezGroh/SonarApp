@@ -14,8 +14,8 @@ function LoginForm() {
     setError(null);
 
     try {
-      await login(email, password);
-      // redirección automática la maneja el hook o router
+      await login(email, password); // ✅ ahora usa el hook
+      // redirección automática la maneja App.tsx
     } catch (err: any) {
       setError("Credenciales inválidas o error de conexión");
     } finally {
@@ -59,3 +59,4 @@ function LoginForm() {
 }
 
 export default LoginForm;
+

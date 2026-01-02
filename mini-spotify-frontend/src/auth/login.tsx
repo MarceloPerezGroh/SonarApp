@@ -2,6 +2,12 @@ import { useState } from "react";
 import api from "../api/client";
 import "./Register.css";
 
+// 👇 definimos la forma esperada de la respuesta del backend
+interface LoginResponse {
+  token: string;
+  message?: string;
+}
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,9 +18,12 @@ function Login() {
     setError("");
 
     try {
-      const res = await api.post("/auth/login", { email, password });
+      // 👇 tipamos la respuesta con LoginResponse
+      const res = await api.post<LoginResponse>("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
-      // redirigir o actualizar estado global
+
+      // aquí deberías redirigir o actualizar el estado global de auth
+      // por ejemplo: navigate("/app") o llamar a useAuth().login(res.data.token)
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al iniciar sesión");
     }

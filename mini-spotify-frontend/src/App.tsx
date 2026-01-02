@@ -1,78 +1,39 @@
-// src/App.tsx
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
-import { useTestApi } from "./hooks/useTestApi";
+import { PlayerProvider } from "./context/PlayerContext";
+import { PlaylistProvider } from "./context/PlaylistContext";
+import Search from "./pages/Search";
+import PlaylistView from "./components/PlaylistView";   // ✅ actualizado
+import PlayerBar from "./components/PlayerBar";
+import PlayerControls from "./components/PlayerControls"; // ✅ controles separados
+import "./App.css"; // ✅ estilos globales
 
-import LoginForm from "./components/LoginForm";
-import PlaylistForm from "./components/playlistForm";
-import PlaylistList from "./components/playlistList";
-
-function LoginPage() {
+const App: React.FC = () => {
   return (
-    <div className="login-page">
-      <h1>Mini Spotify 🎵</h1>
-      <LoginForm />
-    </div>
-  );
-}
+    <PlayerProvider>
+      <PlaylistProvider>
+        <div className="app">
+          <header className="app-header">
+            <h1>🎵 Mini Spotify (Deezer)</h1>
+          </header>
 
-function DashboardPage() {
-  const { logout } = useAuth();
-  const backendStatus = useTestApi();
+          <main className="app-main">
+            <section className="search-section">
+              <Search />
+            </section>
 
-  return (
-    <div className="dashboard-page">
-      <header className="app-header">
-        <h1 className="app-title">Mini Spotify 🎵</h1>
-        <div className="header-right">
-          <p className="backend-status">Backend: {backendStatus}</p>
-          <button className="logout-btn" onClick={logout}>
-            Logout
-          </button>
+            <aside className="playlist-section">
+              <PlaylistView />
+            </aside>
+          </main>
+
+          <footer className="app-footer">
+            <PlayerControls />
+            <PlayerBar />
+          </footer>
         </div>
-      </header>
-
-      <main className="main-section">
-        <PlaylistForm
-           onCreated={(playlist) => {
-             console.log("Nueva playlist creada:", playlist);
-        }}
-      />
-      <PlaylistList />
-
-      </main>
-    </div>
+      </PlaylistProvider>
+    </PlayerProvider>
   );
-}
-
-function App() {
-  const { token } = useAuth();
-
-  return (
-    <Routes>
-      {/* Página raíz */}
-      <Route
-        path="/"
-        element={<Navigate to={token ? "/app" : "/login"} />}
-      />
-
-      {/* Página de login */}
-      <Route path="/login" element={<LoginPage />} />
-
-      {/* Página protegida */}
-      <Route
-        path="/app"
-        element={token ? <DashboardPage /> : <Navigate to="/login" />}
-      />
-
-      {/* Redirección por defecto */}
-      <Route
-        path="*"
-        element={<Navigate to={token ? "/app" : "/login"} />}
-      />
-    </Routes>
-  );
-}
+};
 
 export default App;
