@@ -1,34 +1,32 @@
-import React from "react";
+import { ShuffleIcon, PrevIcon, PlayIcon, PauseIcon, NextIcon, RepeatIcon } from "../icons";
+import "../styles/components/player-controls.css";
 import { usePlayer } from "../context/PlayerContext";
 
-const PlayerControls: React.FC = () => {
-  const { current, queue, next, clearQueue } = usePlayer();
+
+export default function PlayerControls() {
+  const { isPlaying, playPause, prev, next, shuffle, repeatToggle } = usePlayer();
 
   return (
     <div className="player-controls">
-      {current ? (
-        <p>🎶 Reproduciendo: {current.title} — {current.artist}</p>
-      ) : (
-        <p>No hay canción en reproducción</p>
-      )}
-
-      <div className="buttons">
-        <button onClick={next}>⏭ Siguiente</button>
-        <button onClick={clearQueue}>🗑 Limpiar cola</button>
-      </div>
-
-      {queue.length > 0 && (
-        <div className="queue">
-          <h4>Cola de reproducción:</h4>
-          <ul>
-            {queue.map((t, i) => (
-              <li key={i}>{t.title} — {t.artist}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <button className="icon-btn" onClick={shuffle} aria-label="Aleatorio">
+        <ShuffleIcon />
+      </button>
+      <button className="icon-btn" onClick={prev} aria-label="Anterior">
+        <PrevIcon />
+      </button>
+      <button
+        className="play-btn"
+        onClick={playPause}
+        aria-label={isPlaying ? "Pausar" : "Reproducir"}
+      >
+        {isPlaying ? <PauseIcon /> : <PlayIcon />}
+      </button>
+      <button className="icon-btn" onClick={next} aria-label="Siguiente">
+        <NextIcon />
+      </button>
+      <button className="icon-btn" onClick={repeatToggle} aria-label="Repetir">
+        <RepeatIcon />
+      </button>
     </div>
   );
-};
-
-export default PlayerControls;
+}

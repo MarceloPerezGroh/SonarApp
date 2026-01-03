@@ -1,0 +1,5 @@
+.playlist-item { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: center; padding: 8px; border-radius: var(--radius); color: var(--text); background: transparent; }
+.playlist-item:hover { background: var(--hover); }
+.playlist-texts .title { font-size: 14px; }
+.playlist-texts .subtitle { font-size: 12px; color: var(--text-muted); }
+.playlist-item svg { width: 22px; height: 22px; fill: var(--text-muted); }

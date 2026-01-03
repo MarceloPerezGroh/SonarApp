@@ -1,0 +1,87 @@
+.playlist-view {
+  padding: 1rem;
+  color: var(--text-primary);
+}
+
+.playlist-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.playlist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.playlist-item {
+  margin-bottom: 1rem;
+}
+
+.playlist-name {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.track-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.track-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.track-item:hover {
+  background: var(--hover-bg);
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.track-artist {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.track-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.action-btn:hover {
+  color: var(--accent);
+  background: var(--hover-bg);
+}
+
+.empty-msg,
+.track-empty {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}

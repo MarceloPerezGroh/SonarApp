@@ -1,0 +1,4 @@
+.search-input { display: flex; align-items: center; gap: 10px; background: var(--bg-pressed); border-radius: 999px; padding: 10px 14px; width: min(720px, 90%); }
+.search-input svg { width: 18px; height: 18px; fill: var(--text-muted); }
+.search-input input { border: none; outline: none; background: transparent; width: 100%; color: var(--text); }
+.search-input input::placeholder { color: var(--text-muted); }

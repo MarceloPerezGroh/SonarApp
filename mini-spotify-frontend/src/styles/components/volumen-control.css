@@ -1,0 +1,4 @@
+.volume-control { display: flex; align-items: center; gap: 10px; }
+.volume-control svg { width: 18px; height: 18px; fill: var(--text); }
+.volume-control input[type="range"] { appearance: none; width: 160px; height: 4px; background: var(--outline); border-radius: 999px; }
+.volume-control input[type="range"]::-webkit-slider-thumb { appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--text); margin-top: -4px; }

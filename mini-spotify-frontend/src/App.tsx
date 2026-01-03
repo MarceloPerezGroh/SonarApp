@@ -5,6 +5,9 @@ import Search from "./pages/Search";
 import PlaylistView from "./components/PlaylistView";
 import PlayerControls from "./components/PlayerControls";
 import "./App.css";
+import "./styles/_variables.css";
+import "./styles/_base.css";
+
 
 const App: React.FC = () => {
   return (
