@@ -1,0 +1,48 @@
+import { Track } from "../types/Track";
+
+const trackData = {
+  tracks : [
+    { "id": 1, "title": "SoundHelix Song 1", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { "id": 2, "title": "SoundHelix Song 2", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { "id": 3, "title": "SoundHelix Song 3", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    { "id": 4, "title": "SoundHelix Song 4", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+    { "id": 5, "title": "SoundHelix Song 5", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+    { "id": 6, "title": "SoundHelix Song 6", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+    { "id": 7, "title": "SoundHelix Song 7", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+    { "id": 8, "title": "SoundHelix Song 8", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+    { "id": 9, "title": "SoundHelix Song 9", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+    { "id": 10, "title": "SoundHelix Song 10", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+
+    { "id": 11, "title": "SoundHelix Song 11", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
+    { "id": 12, "title": "SoundHelix Song 12", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
+    { "id": 13, "title": "SoundHelix Song 13", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
+    { "id": 14, "title": "SoundHelix Song 14", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },
+    { "id": 15, "title": "SoundHelix Song 15", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" },
+    { "id": 16, "title": "SoundHelix Song 16", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3" },
+    { "id": 17, "title": "SoundHelix Song 17", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" },
+    { "id": 18, "title": "SoundHelix Song 18", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-18.mp3" },
+    { "id": 19, "title": "SoundHelix Song 19", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-19.mp3" },
+    { "id": 20, "title": "SoundHelix Song 20", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-20.mp3" },
+
+    { "id": 21, "title": "SoundHelix Song 21", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-21.mp3" },
+    { "id": 22, "title": "SoundHelix Song 22", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-22.mp3" },
+    { "id": 23, "title": "SoundHelix Song 23", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-23.mp3" },
+    { "id": 24, "title": "SoundHelix Song 24", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-24.mp3" },
+    { "id": 25, "title": "SoundHelix Song 25", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-25.mp3" },
+    { "id": 26, "title": "SoundHelix Song 26", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-26.mp3" },
+    { "id": 27, "title": "SoundHelix Song 27", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-27.mp3" },
+    { "id": 28, "title": "SoundHelix Song 28", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-28.mp3" },
+    { "id": 29, "title": "SoundHelix Song 29", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-29.mp3" },
+    { "id": 30, "title": "SoundHelix Song 30", "artist": "SoundHelix", "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-30.mp3" }
+  ]
+};
+
+export const getLocalTracks = (): Track[] => {
+  return trackData.tracks.map((t) => ({
+    id: t.id,
+    title: t.title,
+    artist: t.artist,
+    url: t.src // ahora apunta a URL externa
+  }));
+};
+

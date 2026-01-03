@@ -1,20 +1,16 @@
-import React from "react";
-import { Track } from "../services/deezer";
-import TrackCard from "./TrackCard";
+import { Track } from "../types/Track";
+import TrackItem from "./TrackItem";
 
-interface TrackListProps {
+interface Props {
   tracks: Track[];
+  onSelect: (track: Track) => void;
 }
 
-const TrackList: React.FC<TrackListProps> = ({ tracks }) => {
-  if (tracks.length === 0) {
-    return <p>No hay resultados</p>;
-  }
-
+const TrackList: React.FC<Props> = ({ tracks, onSelect }) => {
   return (
-    <div className="track-list">
+    <div>
       {tracks.map((track) => (
-        <TrackCard key={track.id} track={track} />
+        <TrackItem key={track.id} track={track} onSelect={onSelect} />
       ))}
     </div>
   );

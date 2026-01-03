@@ -4,16 +4,22 @@
   min-height: 100vh;
   background-color: #121212;
   color: #fff;
-  font-family: Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
 }
 
+/* Header */
 .app-header {
   padding: 16px;
-  background-color: #1db954; /* verde estilo Spotify */
-  color: white;
+  background: linear-gradient(90deg, #1db954, #1ed760);
+  color: #fff;
   text-align: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
+/* Main layout */
 .app-main {
   flex: 1;
   display: flex;
@@ -21,21 +27,56 @@
   gap: 20px;
 }
 
+/* Search section */
 .search-section {
   flex: 2;
+  background-color: #181818;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
+/* Playlist section */
 .playlist-section {
   flex: 1;
   background-color: #181818;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  overflow-y: auto;
 }
 
+/* Footer / Player bar */
 .app-footer {
-  background-color: #282828;
-  padding: 12px;
+  background-color: #181818;
+  padding: 12px 20px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #333;
+  position: sticky;
+  bottom: 0;
+}
+
+/* Player controls */
+.player-controls button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.player-controls button:hover {
+  transform: scale(1.2);
+  color: #1db954;
+}
+
+/* Now playing text */
+.now-playing {
+  font-size: 14px;
+  opacity: 0.85;
+  font-weight: 500;
 }
