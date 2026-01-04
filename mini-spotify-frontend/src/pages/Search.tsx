@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Track } from "../types/Track";
 import { usePlayer } from "../context/PlayerContext";
-import tracksData from "../data/tracks.json"; // 🔑 ajusta la ruta según tu estructura
+import tracksData from "./data/tracks.json";
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState("");
@@ -9,8 +9,7 @@ const Search: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Usamos el reproductor: reproducir y agregar a cola
-  const { play, addToQueue } = usePlayer();
+  const { playTrack, addToQueue } = usePlayer();
 
   const handleSearch = () => {
     if (query.trim() === "") {
@@ -21,18 +20,15 @@ const Search: React.FC = () => {
     setError(null);
 
     try {
-      // 🔑 Transformamos el JSON a la interfaz Track
-      const allTracks: Track[] = (tracksData as { tracks: { id: number; title: string; artist?: string; src: string }[] }).tracks.map(
-        (t) => ({
-          id: t.id,
-          title: t.title,
-          artist: t.artist,
-          url: t.src // usamos src del JSON como url
-        })
-      );
+      const allTracks: Track[] = tracksData.tracks.map((t) => ({
+        id: t.id,
+        title: t.title,
+        artist: t.artist,
+        url: t.src, // 👈 transformamos src → url
+      }));
 
       const filtered = allTracks.filter((t) =>
-        t.title.toLowerCase().includes(query.toLowerCase())
+        (t.title ?? "").toLowerCase().includes(query.toLowerCase())
       );
       setResults(filtered);
 
@@ -69,7 +65,7 @@ const Search: React.FC = () => {
             <span>{track.title} — {track.artist}</span>
             <div className="actions">
               <button onClick={() => addToQueue(track)}>➕ Agregar a reproducción</button>
-              <button onClick={() => play(track)}>▶ Reproducir ahora</button>
+              <button onClick={() => playTrack(track)}>▶ Reproducir ahora</button>
             </div>
           </li>
         ))}

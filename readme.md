@@ -128,3 +128,4 @@ Entregar un proyecto que funcione bien, con un diseño profesional y que represe
 ## 📄 Licencia
 Proyecto de uso educativo y demostrativo.
 
+# Mini-Spotify0.1
