@@ -1,7 +1,85 @@
-.sidebar { background: var(--bg-elevated); border-right: 1px solid var(--outline); padding: 12px; display: flex; flex-direction: column; gap: 12px; }
-.sidebar-header { display: flex; align-items: center; justify-content: space-between; }
-.sidebar-header h3 { margin: 0; font-weight: 600; }
-.header-actions { display: flex; gap: 8px; }
-.pill { background: var(--pill); color: var(--text); border-radius: 999px; padding: 8px 14px; font-size: 13px; }
-.sidebar-search { display: flex; align-items: center; padding: 8px; color: var(--text-muted); }
-.sidebar-list { display: grid; gap: 8px; }
+.sidebar {
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--outline);
+  padding: 16px;                  /* un poco más de aire */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;                      /* separación más clara entre bloques */
+  min-width: 240px;               /* ancho mínimo para consistencia */
+  border-radius: 10px;   /**/
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;                /* tamaño consistente */
+  color: var(--text-primary);
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pill {
+  background: var(--pill);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 6px 12px;              /* más compacto */
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.pill:hover {
+  background: var(--pill-hover);  /* estado hover */
+}
+
+.sidebar-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;                       /* separación entre icono y input */
+  padding: 8px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  color: var(--text-muted);
+}
+
+.sidebar-search input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.sidebar-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;                      /* más aire entre ítems */
+}
+
+.sidebar-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sidebar-list-item:hover {
+  background: var(--bg-hover);
+}

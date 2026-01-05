@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "../styles/layout/top-bar.css";
-import { HomeIcon, SearchIcon, PlayIcon, PlusIcon } from "../icons";
-import { usePlayer } from "../context/PlayerContext"; // 👈 usar PlayerContext
+import { SearchIcon, PlayIcon, PlusIcon } from "../icons"; // 👈 HomeIcon eliminado
+import { usePlayer } from "../context/PlayerContext"; 
 import { Track } from "../types/Track";
 
 const TopBar: React.FC = () => {
-  const { play, addToQueue, allTracks } = usePlayer(); // 👈 mismo contexto que QueueView
+  const { play, addToQueue, allTracks } = usePlayer();
   const [query, setQuery] = useState("");
 
   // Filtrar sobre allTracks expuesto en PlayerContext
@@ -17,8 +17,9 @@ const TopBar: React.FC = () => {
 
   return (
     <header className="top-bar">
+      {/* Logo desde public/images */}
       <div className="logo">
-        <HomeIcon />
+        <img src="/images/logo1PNG.png" alt="App Logo" />
       </div>
 
       <div className="search-container">
@@ -46,7 +47,7 @@ const TopBar: React.FC = () => {
                       setQuery("");
                     }}
                     aria-label={`Reproducir ${track.title}`}
-                    title={`Reproducir ${track.title}`}   // 👈 agregado
+                    title={`Reproducir ${track.title}`}
                   >
                     <PlayIcon />
                   </button>
@@ -54,7 +55,7 @@ const TopBar: React.FC = () => {
                     className="btn-add"
                     onClick={() => addToQueue(track)}
                     aria-label={`Agregar ${track.title} a la cola`}
-                    title={`Agregar ${track.title} a la cola`}   // 👈 agregado
+                    title={`Agregar ${track.title} a la cola`}
                   >
                     <PlusIcon />
                   </button>

@@ -1,5 +1,6 @@
 /* styles/layout/top-bar.css */
 
+
 .top-bar {
   display: flex;
   align-items: center;
@@ -10,12 +11,20 @@
   z-index: 100;
 }
 
+.top-bar .logo img {
+  height: 90px;   /* tamaño aproximado al logo de YouTube */
+  width: auto;    /* mantiene proporción */
+  display: block;
+}
+
+
 .search-container {
   position: relative; /* 👈 el dropdown se ancla aquí */
   flex: 1;
   max-width: 400px;
 }
 
+/*ESTO CAMBIA EL ESTILO DEL BUSCADOR*/
 .search-box {
   display: flex;
   align-items: center;

@@ -2,7 +2,7 @@
 :root {
   --color-bg: #121212;        /* gris muy oscuro */
   --color-text: #e5e5e5;      /* texto claro */
-  --color-primary: #1db954;   /* turquesa Spotify */
+  --color-primary: #19191a;   
 }
 
 html, body, #root {

@@ -5,6 +5,7 @@ import TopBar from "./layout/TopBar";                         // header con logo
 import PlayerControls from "./components/PlayerControls";     // controles del reproductor
 import QueueView from "./components/QueueView";               // cola de reproducción
 import MediaDisplay from "./components/MediaDisplay";         // portada del track actual
+import { VolumeIcon } from "./icons";                         // ícono de volumen
 
 import "./styles/_variables.css";
 import "./styles/_base.css";
@@ -29,9 +30,24 @@ const App: React.FC = () => {
           </aside>
         </main>
 
-        {/* Controles del reproductor con línea de tiempo */}
+        {/* Footer / Player bar */}
         <footer className="app-footer">
-          <PlayerControls />
+          {/* Controles + timeline */}
+          <div className="player-controls-wrapper">
+            <PlayerControls />
+          </div>
+
+          {/* Volumen separado al costado derecho */}
+          <div className="volume">
+            <VolumeIcon />
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              aria-label="Volumen"
+            />
+          </div>
         </footer>
       </div>
     </PlayerProvider>

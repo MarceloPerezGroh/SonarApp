@@ -8,6 +8,7 @@ export interface Track {
   artist?: string;
   url: string;
   imageUrl?: string; // 👈 nueva propiedad opcional
+  audioUrl?: string; //nuevo
 }
 
 // Tipo del contexto: todas las funciones y estados disponibles

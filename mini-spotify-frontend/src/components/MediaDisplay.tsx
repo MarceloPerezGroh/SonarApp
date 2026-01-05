@@ -1,4 +1,3 @@
-// components/MediaDisplay.tsx
 import React from "react";
 import { usePlayer } from "../context/PlayerContext";
 import "../styles/components/media-display.css";
