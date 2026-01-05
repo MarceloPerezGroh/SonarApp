@@ -1,30 +1,167 @@
-/* styles/layout/top-bar.css */
-
-
 .top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: #111;
   padding: 10px 20px;
-  position: relative; /* 👈 importante para que el dropdown se posicione relativo al header */
+  position: relative; /* dropdown relativo al header */
   z-index: 100;
+  height: 60px;       /* altura fija para alinear logo + hamburguesa */
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center; /* logo y hamburguesa en la misma fila */
 }
 
 .top-bar .logo img {
-  height: 90px;   /* tamaño aproximado al logo de YouTube */
-  width: auto;    /* mantiene proporción */
+  height: 40px;   /* ajustado para que no desplace la barra */
+  width: auto;
   display: block;
 }
 
+/* --- Hamburguesa --- */
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 12px; /* separación respecto al logo */
+  padding: 4px;
+}
 
+.line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 3px 0;
+  background: #e30867;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.line.open:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.line.open:nth-child(2) {
+  opacity: 0;
+}
+.line.open:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* --- Overlay --- */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 900;
+}
+
+/* --- Sidebar lateral --- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px; /* oculto completamente */
+  width: 240px;
+  height: 100%;
+  background: #121212;
+  color: #fff;
+  transition: left 0.3s ease;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.6);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* menú arriba, footer abajo */
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  align-self: flex-end;
+}
+
+/* Bloque superior: About · Licencia · Versión */
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px; /* espacio respecto al divider */
+}
+
+.sidebar-links a {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none; 
+  transition: color 0.2s;
+}
+
+.sidebar-links a:hover {
+  color: #e30867;
+}
+
+
+.sidebar-links button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s;
+}
+
+.sidebar-links button:hover {
+  color: #e30867;
+}
+
+/* Divider minimalista */
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 16px 0;
+}
+
+/* Texto corrido estilo YouTube */
+.sidebar-text {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+/* Footer */
+.sidebar-footer {
+  font-size: 12px;
+  color: #aaa;
+  text-align: center;
+  line-height: 1.4;
+  margin-top: 7px;
+  margin-bottom: 27px;
+}
+
+/* --- Buscador --- */
 .search-container {
-  position: relative; /* 👈 el dropdown se ancla aquí */
+  position: relative; /* dropdown anclado aquí */
   flex: 1;
   max-width: 400px;
 }
 
-/*ESTO CAMBIA EL ESTILO DEL BUSCADOR*/
 .search-box {
   display: flex;
   align-items: center;
@@ -47,7 +184,7 @@
 }
 
 .search-dropdown {
-  position: absolute; /* 👈 flotante */
+  position: absolute;
   top: 100%;          /* justo debajo del input */
   left: 0;
   right: 0;
@@ -57,12 +194,12 @@
   margin-top: 4px;
   list-style: none;
   padding: 0;
-  z-index: 200;       /* encima del resto */
+  z-index: 200;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
 
 .search-dropdown li {
-  display: flex;                /* 👈 para alinear título + botones */
+  display: flex;                
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
@@ -71,7 +208,7 @@
 }
 
 .search-dropdown li:hover {
-  background: #222; /* 👈 más sutil, el highlight lo damos en botones */
+  background: #222;
 }
 
 .track-title {
@@ -98,7 +235,13 @@
 }
 
 .track-actions button:hover {
-  background: #ff00aa; /* magenta highlight */
+  background: #e30867; 
   color: #000;
-  border-color: #ff00aa;
+  border-color: #e30867;
+}
+
+
+.sonar-highlight {
+  font-weight: bold;   /* 👈 negrita */
+  color: #e30867;      
 }

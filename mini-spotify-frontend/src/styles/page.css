@@ -1,0 +1,18 @@
+.page-container {
+  background: #121212;
+  color: #fff;
+  min-height: 100vh;
+  padding: 40px;
+  font-family: "Inter", sans-serif;
+}
+
+.page-container h1 {
+  color: #e30867; 
+  margin-bottom: 20px;
+}
+
+.page-container p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ccc;
+}

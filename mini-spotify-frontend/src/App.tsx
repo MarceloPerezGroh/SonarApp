@@ -1,11 +1,16 @@
 // App.tsx
 import React from "react";
-import { PlayerProvider } from "./context/PlayerContext";     // 👈 único provider
-import TopBar from "./layout/TopBar";                         // header con logo y buscador
-import PlayerControls from "./components/PlayerControls";     // controles del reproductor
-import QueueView from "./components/QueueView";               // cola de reproducción
-import MediaDisplay from "./components/MediaDisplay";         // portada del track actual
-import { VolumeIcon } from "./icons";                         // ícono de volumen
+import { Routes, Route } from "react-router-dom";
+import { PlayerProvider } from "./context/PlayerContext";
+import TopBar from "./layout/TopBar";
+import PlayerControls from "./components/PlayerControls";
+import QueueView from "./components/QueueView";
+import MediaDisplay from "./components/MediaDisplay";
+import { VolumeIcon } from "./icons";
+
+import AboutPage from "./pages/AboutPage";
+import LicenciaPage from "./pages/LicenciaPage";
+import VersionPage from "./pages/VersionPage";
 
 import "./styles/_variables.css";
 import "./styles/_base.css";
@@ -15,29 +20,39 @@ const App: React.FC = () => {
   return (
     <PlayerProvider>
       <div className="app">
-        {/* Header con logo a la izquierda y buscador centrado */}
+        {/* Header fijo */}
         <TopBar />
 
+        {/* 👇 El contenido central cambia según la ruta */}
         <main className="app-main">
-          {/* Portada del track actual en el centro */}
-          <section className="media-section">
-            <MediaDisplay />
-          </section>
+          <Routes>
+            {/* Página principal con reproductor */}
+            <Route
+              path="/"
+              element={
+                <>
+                  <section className="media-section">
+                    <MediaDisplay />
+                  </section>
+                  <aside className="queue-section">
+                    <QueueView />
+                  </aside>
+                </>
+              }
+            />
 
-          {/* Cola de reproducción al costado derecho */}
-          <aside className="queue-section">
-            <QueueView />
-          </aside>
+            {/* Páginas informativas */}
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/licencia" element={<LicenciaPage />} />
+            <Route path="/version" element={<VersionPage />} />
+          </Routes>
         </main>
 
-        {/* Footer / Player bar */}
+        {/* Footer fijo */}
         <footer className="app-footer">
-          {/* Controles + timeline */}
           <div className="player-controls-wrapper">
             <PlayerControls />
           </div>
-
-          {/* Volumen separado al costado derecho */}
           <div className="volume">
             <VolumeIcon />
             <input

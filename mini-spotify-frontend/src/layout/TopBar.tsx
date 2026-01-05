@@ -1,14 +1,15 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";   // 👈 Importamos Link
 import "../styles/layout/top-bar.css";
-import { SearchIcon, PlayIcon, PlusIcon } from "../icons"; // 👈 HomeIcon eliminado
+import { SearchIcon, PlayIcon, PlusIcon } from "../icons"; 
 import { usePlayer } from "../context/PlayerContext"; 
 import { Track } from "../types/Track";
 
 const TopBar: React.FC = () => {
   const { play, addToQueue, allTracks } = usePlayer();
   const [query, setQuery] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Filtrar sobre allTracks expuesto en PlayerContext
   const results: Track[] = query
     ? allTracks.filter((t: Track) =>
         t.title.toLowerCase().includes(query.toLowerCase())
@@ -17,11 +18,25 @@ const TopBar: React.FC = () => {
 
   return (
     <header className="top-bar">
-      {/* Logo desde public/images */}
-      <div className="logo">
-        <img src="/images/logo1PNG.png" alt="App Logo" />
+      {/* Contenedor izquierdo: hamburguesa + logo */}
+      <div className="topbar-left">
+        <button
+          className="hamburger-btn"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          title={menuOpen ? "Cerrar menú" : "Abrir menú"}
+        >
+          <span className={menuOpen ? "line open" : "line"} />
+          <span className={menuOpen ? "line open" : "line"} />
+          <span className={menuOpen ? "line open" : "line"} />
+        </button>
+
+        <div className="logo">
+          <img src="/images/logo1PNG.png" alt="App Logo" />
+        </div>
       </div>
 
+      {/* Buscador */}
       <div className="search-container">
         <div className="search-box">
           <input
@@ -65,6 +80,45 @@ const TopBar: React.FC = () => {
           </ul>
         )}
       </div>
+
+      {/* Overlay para cerrar al hacer click fuera */}
+      {menuOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setMenuOpen(false)}
+          aria-label="Cerrar menú"
+          title="Cerrar menú"
+        />
+      )}
+
+      {/* Sidebar lateral */}
+      <nav className={`sidebar ${menuOpen ? "open" : ""}`}>
+        <button
+          className="close-btn"
+          onClick={() => setMenuOpen(false)}
+          aria-label="Cerrar menú"
+          title="Cerrar menú"
+        >
+          ✕
+        </button>
+
+        {/* Bloque superior: About · Licencia · Versión */}
+        <div className="sidebar-links">
+          <Link to="/about" onClick={() => setMenuOpen(false)} aria-label="About" title="About">About</Link>
+          <Link to="/licencia" onClick={() => setMenuOpen(false)} aria-label="Licencia" title="Licencia">Licencia</Link>
+          <Link to="/version" onClick={() => setMenuOpen(false)} aria-label="Versión" title="Versión">Versión</Link>
+        </div>
+
+        <hr className="sidebar-divider" />
+
+        {/* Texto corrido estilo YouTube */}
+        <div className="sidebar-text">
+          Acerca de <span className="sonar-highlight">SONAR</span>  Comunicarte con MarceloPerezGroh
+          Desarrollador · Condiciones · Privacidad · Políticas y seguridad · Cómo funciona SONAR ·
+          Prueba funciones nuevas.
+        </div>
+        <p className="sidebar-footer">© 2026 Dev MarceloPerezGroh</p>
+      </nav>
     </header>
   );
 };
