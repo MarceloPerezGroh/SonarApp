@@ -10,7 +10,7 @@
 /* Header */
 .app-header {
   padding: 16px;
-  background: linear-gradient(90deg, #1db954, #1ed760);
+  background: linear-gradient(90deg, #ff00aa, #ff33cc); /* degradado magenta */
   color: #fff;
   text-align: center;
   font-size: 1.6rem;
@@ -19,31 +19,46 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
-/* Main layout */
+/* MAIN layout */
 .app-main {
+  display: flex;
+  flex-direction: row;
+  flex: 1; /* ocupa todo el espacio entre header y footer */
+  gap: 20px;
+  padding: 20px;
+  height: calc(100vh - 120px); /* altura total menos header+footer */
+}
+
+/* MediaDisplay ocupa ~75% */
+.media-section {
   flex: 1;
   display: flex;
-  padding: 20px;
-  gap: 20px;
-}
-
-/* Search section */
-.search-section {
-  flex: 2;
-  background-color: #181818;
-  padding: 16px;
+  align-items: center;
+  justify-content: center;
+  background-color: #111;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  overflow: hidden;
 }
 
-/* Playlist section */
+.media-section img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 0, 170, 0.3); /* glow magenta futurista */
+}
+
+/* Playlist / Queue section (sidebar) */
 .playlist-section {
-  flex: 1;
+  flex: 0 0 22%; /* ocupa ~22% del ancho */
+  max-width: 300px;
   background-color: #181818;
   padding: 16px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   overflow-y: auto;
+  border-right: 1px solid #333;
 }
 
 /* Footer / Player bar */
@@ -71,7 +86,7 @@
 
 .player-controls button:hover {
   transform: scale(1.2);
-  color: #1db954;
+  color: #ff00aa; /* hover magenta */
 }
 
 /* Now playing text */

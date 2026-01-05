@@ -1,0 +1,37 @@
+:root {
+  --footer-height: 60px;
+  --bg-primary: #000;
+  --bg-secondary: #181818;
+  --text-primary: #fff;
+  --text-secondary: #aaa;
+  --accent-color: #ff00aa;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  background: var(--bg-primary);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* evita que el scroll afecte al media-section */
+}
+
+.footer {
+  height: var(--footer-height);
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

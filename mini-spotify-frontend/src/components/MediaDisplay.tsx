@@ -1,3 +1,4 @@
+// components/MediaDisplay.tsx
 import React from "react";
 import { usePlayer } from "../context/PlayerContext";
 import "../styles/components/media-display.css";
@@ -5,21 +6,17 @@ import "../styles/components/media-display.css";
 const MediaDisplay: React.FC = () => {
   const { currentTrack } = usePlayer();
 
-  const cover = "/assets/images/default-logo.jpg";
+  // Imagen predeterminada servida desde public/images
+  const defaultImage = "/images/predeterminada.jpg";
+  const imageSrc = currentTrack?.imageUrl || defaultImage;
 
   return (
     <div className="media-display">
       <img
-        src={cover}
-        alt={currentTrack?.title || "Logo"}
+        src={imageSrc}
+        alt={currentTrack ? currentTrack.title : "Imagen predeterminada"}
         className="media-image"
       />
-      <div className="media-info">
-        <h2 className="media-title">{currentTrack?.title || "Sin tema"}</h2>
-        {currentTrack?.artist && (
-          <p className="media-artist">{currentTrack.artist}</p>
-        )}
-      </div>
     </div>
   );
 };

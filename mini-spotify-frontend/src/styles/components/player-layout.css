@@ -1,0 +1,23 @@
+.player-layout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--footer-height)); /* ocupa toda la pantalla menos el footer */
+}
+
+/* Sección de la imagen: fija, ocupa ~65% */
+.media-section {
+  flex: 0 0 65%;             /* altura fija relativa */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid #333;
+}
+
+/* Sección de la cola: ocupa el resto (~35%) y tiene scroll */
+.queue-section {
+  flex: 1;                   /* ocupa el espacio restante */
+  overflow-y: auto;           /* 👈 scroll solo aquí */
+  background: var(--bg-primary);
+  padding: 1rem;
+}

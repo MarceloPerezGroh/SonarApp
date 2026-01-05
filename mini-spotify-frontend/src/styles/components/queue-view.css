@@ -1,31 +1,73 @@
-.queue-view {
-  padding: 1rem;
-  background: var(--bg-secondary);
-  border-left: 1px solid var(--border-color);
-  width: 240px;
+/* Sidebar de la lista */
+.queue-section {
+  flex: 0 0 22%;              /* ocupa ~22% del ancho total */
+  max-width: 300px;           /* límite para que no se expanda demasiado */
+  background-color: #181818;
+  border-right: 1px solid #333;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px); /* altura total menos header+footer */
+  overflow-y: auto;
 }
 
-.queue-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 0.6rem;
-}
-
-.queue-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
+/* Items de la lista */
 .queue-item {
-  padding: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;              /* compacto */
+  border-bottom: 1px solid #2a2a2a;
+  color: #fff;
   font-size: 0.9rem;
-  color: var(--text-primary);
-  border-bottom: 1px solid var(--border-color);
   transition: background 0.2s ease;
 }
 
 .queue-item:hover {
-  background: var(--bg-hover);
+  background: rgba(255, 0, 170, 0.05); /* highlight magenta al pasar */
+}
+
+.track-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 400;
+  color: #ddd;
+}
+
+/* Contenedor de acciones */
+.queue-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* Botones minimalistas futuristas */
+.queue-actions button {
+  background: transparent;
+  border: 1px solid #444;
+  color: #aaa;
+  padding: 3px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  transition: all 0.25s ease;
+}
+
+.queue-actions button:hover {
+  border-color: #ff00aa;
+  color: #ff00aa;
+  background: rgba(255, 0, 170, 0.12);
+  transform: scale(1.05);
+}
+
+/* Botón reproducir */
+.btn-play {
+  font-size: 15px;
+}
+
+/* Botón eliminar */
+.btn-remove {
+  font-size: 15px;
 }

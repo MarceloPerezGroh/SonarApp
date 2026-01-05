@@ -16,6 +16,10 @@ function Layout({ children, onLogout }: LayoutProps) {
       </header>
 
       <main className="main-content">{children}</main>
+
+      <footer className="footer">
+        <p>Mini Spotify © 2026</p>
+      </footer>
     </div>
   );
 }

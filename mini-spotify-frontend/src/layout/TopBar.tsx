@@ -1,34 +1,68 @@
 import React, { useState } from "react";
 import "../styles/layout/top-bar.css";
-import { HomeIcon, SearchIcon } from "../icons";
-import { usePlaylist } from "../context/PlaylistContext";
+import { HomeIcon, SearchIcon, PlayIcon, PlusIcon } from "../icons";
+import { usePlayer } from "../context/PlayerContext"; // 👈 usar PlayerContext
+import { Track } from "../types/Track";
 
 const TopBar: React.FC = () => {
-  const { searchTracks } = usePlaylist();
+  const { play, addToQueue, allTracks } = usePlayer(); // 👈 mismo contexto que QueueView
   const [query, setQuery] = useState("");
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-    searchTracks(value);
-  };
+  // Filtrar sobre allTracks expuesto en PlayerContext
+  const results: Track[] = query
+    ? allTracks.filter((t: Track) =>
+        t.title.toLowerCase().includes(query.toLowerCase())
+      )
+    : [];
 
   return (
     <header className="top-bar">
       <div className="logo">
         <HomeIcon />
       </div>
+
       <div className="search-container">
         <div className="search-box">
           <input
             type="text"
-            placeholder="Buscar"
+            placeholder="Buscar canciones..."
             aria-label="Buscar canciones"
             value={query}
-            onChange={handleSearch}
+            onChange={(e) => setQuery(e.target.value)}
           />
           <SearchIcon />
         </div>
+
+        {query && results.length > 0 && (
+          <ul className="search-dropdown">
+            {results.map((track: Track) => (
+              <li key={track.id} className="search-item">
+                <span className="track-title">{track.title}</span>
+                <div className="track-actions">
+                  <button
+                    className="btn-play"
+                    onClick={() => {
+                      play(track);
+                      setQuery("");
+                    }}
+                    aria-label={`Reproducir ${track.title}`}
+                    title={`Reproducir ${track.title}`}   // 👈 agregado
+                  >
+                    <PlayIcon />
+                  </button>
+                  <button
+                    className="btn-add"
+                    onClick={() => addToQueue(track)}
+                    aria-label={`Agregar ${track.title} a la cola`}
+                    title={`Agregar ${track.title} a la cola`}   // 👈 agregado
+                  >
+                    <PlusIcon />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </header>
   );

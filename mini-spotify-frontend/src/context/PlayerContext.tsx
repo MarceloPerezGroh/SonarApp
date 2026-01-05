@@ -7,6 +7,7 @@ export interface Track {
   title: string;
   artist?: string;
   url: string;
+  imageUrl?: string; // 👈 nueva propiedad opcional
 }
 
 // Tipo del contexto: todas las funciones y estados disponibles
@@ -23,6 +24,9 @@ export interface PlayerContextType {
   shuffle: () => void;
   repeatToggle: () => void;
   addToQueue: (track: Track) => void;
+  removeFromQueue: (id: number) => void;
+  setCurrentTrack: (track: Track) => void;
+  allTracks: Track[];
 }
 
 // Crear el contexto
@@ -37,12 +41,13 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   // Transformar JSON a Track[]
   const allTracks: Track[] = (tracksData as {
-    tracks: { id: number; title: string; artist?: string; src: string }[];
+    tracks: { id: number; title: string; artist?: string; src: string; imageUrl?: string }[];
   }).tracks.map((t) => ({
     id: t.id,
     title: t.title,
     artist: t.artist,
     url: t.src,
+    imageUrl: t.imageUrl, // 👈 ahora se incluye
   }));
 
   // Reproducir un track específico
@@ -110,6 +115,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setQueue((q) => [...q, track]);
   };
 
+  // Eliminar un track de la cola
+  const removeFromQueue = (id: number) => {
+    setQueue((q) => q.filter((t) => t.id !== id));
+  };
+
   return (
     <PlayerContext.Provider
       value={{
@@ -124,6 +134,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         shuffle,
         repeatToggle,
         addToQueue,
+        removeFromQueue,
+        setCurrentTrack,
+        allTracks,
       }}
     >
       {children}

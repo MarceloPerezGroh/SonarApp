@@ -1,113 +1,129 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { Track } from "../types/Track";
-import tracksFile from "../data/tracks.json";
+import React, { createContext, useContext, useRef, useState } from "react";
+import tracksData from "../data/tracks.json";
 
-export interface Playlist {
-  id: string;
-  name: string;
-  tracks: Track[];
+export interface Track {
+  id: number;
+  title: string;
+  artist?: string;
+  url: string;
+  imageUrl?: string;
 }
 
-interface PlaylistContextType {
-  playlists: Playlist[];
-  query: string;
-  filteredTracks: Track[];
-  addPlaylist: (playlist: Playlist) => void;
-  addTrack: (playlistId: string, track: Track) => void;
-  removeTrack: (playlistId: string, trackId: number) => void;
-  deletePlaylist: (playlistId: string) => void;
-  searchTracks: (query: string) => void;
-  clearSearch: () => void;
+export interface PlaylistContextType {
+  tracks: Track[];
+  currentTrack: Track | null;
+  isPlaying: boolean;
+  queue: Track[];
+  repeat: boolean;
+
+  play: (track: Track) => void;
+  playPause: () => void;
+  prev: () => void;
+  next: () => void;
+  shuffle: () => void;
+  repeatToggle: () => void;
+  addToQueue: (track: Track) => void;
+  setCurrentTrack: (track: Track) => void;
 }
 
 const PlaylistContext = createContext<PlaylistContextType | undefined>(undefined);
 
 export const PlaylistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // 🔑 Mapear src → url
-  const initialTracks: Track[] = tracksFile.tracks.map((t) => ({
+  const audioRef = useRef<HTMLAudioElement>(new Audio());
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
+  const [queue, setQueue] = useState<Track[]>([]);
+  const [repeat, setRepeat] = useState(false);
+
+  const tracks: Track[] = (tracksData as {
+    tracks: { id: number; title: string; artist?: string; src: string; imageUrl?: string }[];
+  }).tracks.map((t) => ({
     id: t.id,
     title: t.title,
     artist: t.artist,
     url: t.src,
+    imageUrl: t.imageUrl,
   }));
 
-  const [playlists, setPlaylists] = useState<Playlist[]>([
-    {
-      id: "default",
-      name: "Todos los temas",
-      tracks: initialTracks,
-    },
-  ]);
-  const [query, setQuery] = useState("");
-  const [filteredTracks, setFilteredTracks] = useState<Track[]>(initialTracks);
+  const play = (track: Track) => {
+    audioRef.current.src = track.url;
+    audioRef.current
+      .play()
+      .then(() => setIsPlaying(true))
+      .catch(() => setIsPlaying(false));
+    setCurrentTrack(track);
+  };
 
-  useEffect(() => {
-    const allTracks = playlists.flatMap((pl) => pl.tracks);
-    if (!query) {
-      setFilteredTracks(allTracks);
+  const playPause = () => {
+    if (!audioRef.current.src) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      setFilteredTracks(
-        allTracks.filter(
-          (t) =>
-            t.title.toLowerCase().includes(query.toLowerCase()) ||
-            t.artist.toLowerCase().includes(query.toLowerCase())
-        )
-      );
+      audioRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
     }
-  }, [playlists, query]);
-
-  const addPlaylist = (playlist: Playlist) => {
-    setPlaylists((prev) => [...prev, { ...playlist, tracks: [] }]);
   };
 
-  const addTrack = (playlistId: string, track: Track) => {
-    setPlaylists((prev) =>
-      prev.map((pl) =>
-        pl.id === playlistId ? { ...pl, tracks: [...pl.tracks, track] } : pl
-      )
-    );
+  const prev = () => {
+    if (!currentTrack) return;
+    const idx = tracks.findIndex((t) => t.id === currentTrack.id);
+    const prevTrack = tracks[(idx - 1 + tracks.length) % tracks.length];
+    play(prevTrack);
   };
 
-  const removeTrack = (playlistId: string, trackId: number) => {
-    setPlaylists((prev) =>
-      prev.map((pl) =>
-        pl.id === playlistId
-          ? { ...pl, tracks: pl.tracks.filter((t) => t.id !== trackId) }
-          : pl
-      )
-    );
+  const next = () => {
+    if (queue.length > 0) {
+      const [first, ...rest] = queue;
+      setQueue(rest);
+      play(first);
+    } else if (currentTrack) {
+      const idx = tracks.findIndex((t) => t.id === currentTrack.id);
+      const nextTrack = tracks[(idx + 1) % tracks.length];
+      play(nextTrack);
+    }
   };
 
-  const deletePlaylist = (playlistId: string) => {
-    setPlaylists((prev) => prev.filter((pl) => pl.id !== playlistId));
+  const shuffle = () => {
+    const randomTrack = tracks[Math.floor(Math.random() * tracks.length)];
+    play(randomTrack);
   };
 
-  const searchTracks = (q: string) => setQuery(q);
-  const clearSearch = () => setQuery("");
+  const repeatToggle = () => {
+    setRepeat((r) => {
+      const newRepeat = !r;
+      audioRef.current.loop = newRepeat;
+      return newRepeat;
+    });
+  };
 
-  return (
-    <PlaylistContext.Provider
-      value={{
-        playlists,
-        query,
-        filteredTracks,
-        addPlaylist,
-        addTrack,
-        removeTrack,
-        deletePlaylist,
-        searchTracks,
-        clearSearch,
-      }}
-    >
-      {children}
-    </PlaylistContext.Provider>
-  );
+  const addToQueue = (track: Track) => {
+    setQueue((q) => [...q, track]);
+  };
+
+  const value: PlaylistContextType = {
+    tracks,
+    currentTrack,
+    isPlaying,
+    queue,
+    repeat,
+    play,
+    playPause,
+    prev,
+    next,
+    shuffle,
+    repeatToggle,
+    addToQueue,
+    setCurrentTrack,
+  };
+
+  return <PlaylistContext.Provider value={value}>{children}</PlaylistContext.Provider>;
 };
 
 export const usePlaylist = () => {
   const ctx = useContext(PlaylistContext);
-  if (!ctx) {
-    throw new Error("usePlaylist debe usarse dentro de PlaylistProvider");
-  }
+  if (!ctx) throw new Error("usePlaylist must be used within PlaylistProvider");
   return ctx;
 };

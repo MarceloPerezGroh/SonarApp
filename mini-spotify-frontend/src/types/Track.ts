@@ -1,8 +1,8 @@
-// src/types/Track.ts
-export interface Track {
+// types/Track.ts
+export type Track = {
   id: number;
   title: string;
-  artist: string;
-  url: string;       // ruta del mp3
-  cover?: string;    // opcional: portada del tema
-}
+  artist?: string;
+  url: string;
+  imageUrl?: string;
+};
