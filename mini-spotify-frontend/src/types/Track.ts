@@ -5,4 +5,5 @@ export type Track = {
   artist?: string;
   url: string;
   imageUrl?: string;
+  coverUrl: string; 
 };

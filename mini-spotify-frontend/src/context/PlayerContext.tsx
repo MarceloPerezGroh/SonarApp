@@ -8,7 +8,7 @@ export interface Track {
   artist?: string;
   url: string;
   imageUrl?: string; // 👈 nueva propiedad opcional
-  audioUrl?: string; //nuevo
+  audioUrl?: string; // 👈 nueva propiedad opcional
 }
 
 // Tipo del contexto: todas las funciones y estados disponibles
@@ -17,6 +17,7 @@ export interface PlayerContextType {
   currentTrack: Track | null;
   queue: Track[];
   repeat: boolean;
+  volume: number; // 👈 nuevo estado de volumen (0–1)
 
   play: (track: Track) => void;
   playPause: () => void;
@@ -27,6 +28,7 @@ export interface PlayerContextType {
   addToQueue: (track: Track) => void;
   removeFromQueue: (id: number) => void;
   setCurrentTrack: (track: Track) => void;
+  setVolume: (v: number) => void; // 👈 nueva función para actualizar volumen
   allTracks: Track[];
 }
 
@@ -39,6 +41,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [queue, setQueue] = useState<Track[]>([]);
   const [repeat, setRepeat] = useState(false);
+  const [volume, setVolumeState] = useState(0.6); // 👈 estado inicial de volumen
 
   // Transformar JSON a Track[]
   const allTracks: Track[] = (tracksData as {
@@ -48,12 +51,13 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     title: t.title,
     artist: t.artist,
     url: t.src,
-    imageUrl: t.imageUrl, // 👈 ahora se incluye
+    imageUrl: t.imageUrl,
   }));
 
   // Reproducir un track específico
   const play = (track: Track) => {
     audioRef.current.src = track.url;
+    audioRef.current.volume = volume; // 👈 aplicar volumen actual
     audioRef.current
       .play()
       .then(() => setIsPlaying(true))
@@ -121,6 +125,12 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setQueue((q) => q.filter((t) => t.id !== id));
   };
 
+  // 👇 Nueva función para actualizar volumen
+  const setVolume = (v: number) => {
+    setVolumeState(v);
+    audioRef.current.volume = v;
+  };
+
   return (
     <PlayerContext.Provider
       value={{
@@ -128,6 +138,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         currentTrack,
         queue,
         repeat,
+        volume,
         play,
         playPause,
         prev,
@@ -137,6 +148,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         addToQueue,
         removeFromQueue,
         setCurrentTrack,
+        setVolume,
         allTracks,
       }}
     >

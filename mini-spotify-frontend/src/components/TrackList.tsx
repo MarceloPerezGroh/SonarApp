@@ -1,5 +1,6 @@
 import { Track } from "../types/Track";
 import TrackItem from "./TrackItem";
+import "../styles/components/track-list.css";
 
 interface Props {
   tracks: Track[];
@@ -8,7 +9,7 @@ interface Props {
 
 const TrackList: React.FC<Props> = ({ tracks, onSelect }) => {
   return (
-    <div>
+    <div className="track-list">
       {tracks.map((track) => (
         <TrackItem key={track.id} track={track} onSelect={onSelect} />
       ))}

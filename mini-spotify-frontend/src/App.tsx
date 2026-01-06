@@ -1,7 +1,6 @@
-// App.tsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { PlayerProvider } from "./context/PlayerContext";
+import { PlayerProvider, usePlayer } from "./context/PlayerContext"; // 👈 importamos usePlayer
 import TopBar from "./layout/TopBar";
 import PlayerControls from "./components/PlayerControls";
 import QueueView from "./components/QueueView";
@@ -15,6 +14,31 @@ import VersionPage from "./pages/VersionPage";
 import "./styles/_variables.css";
 import "./styles/_base.css";
 import "./App.css";
+
+// 👇 Nuevo componente para el slider conectado al contexto
+const VolumeSlider: React.FC = () => {
+  const { volume, setVolume } = usePlayer();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = Number(e.target.value);
+    setVolume(newVolume); // actualiza contexto y audioRef
+  };
+
+  return (
+    <div className="volume">
+      <VolumeIcon />
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value={volume}
+        onChange={handleChange}
+        aria-label="Volumen"
+      />
+    </div>
+  );
+};
 
 const App: React.FC = () => {
   return (
@@ -53,16 +77,8 @@ const App: React.FC = () => {
           <div className="player-controls-wrapper">
             <PlayerControls />
           </div>
-          <div className="volume">
-            <VolumeIcon />
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              aria-label="Volumen"
-            />
-          </div>
+          {/* 👇 reemplazamos el bloque de volumen por el componente conectado */}
+          <VolumeSlider />
         </footer>
       </div>
     </PlayerProvider>

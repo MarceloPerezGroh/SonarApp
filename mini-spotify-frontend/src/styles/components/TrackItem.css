@@ -1,0 +1,27 @@
+.track-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.track-cover {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  margin-right: 12px;
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-title {
+  font-weight: bold;
+}
+
+.track-artist {
+  font-size: 0.9em;
+  color: #aaa;
+}
