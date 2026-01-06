@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 import tracksData from "../data/tracks.json";
 
 export interface Track {
@@ -9,12 +9,24 @@ export interface Track {
   imageUrl?: string;
 }
 
+// Tipo de cada playlist
+export interface Playlist {
+  id: number;
+  name: string;
+  tracks: Track[];
+}
+
 export interface PlaylistContextType {
   tracks: Track[];
   currentTrack: Track | null;
   isPlaying: boolean;
   queue: Track[];
   repeat: boolean;
+
+  // 👇 nuevas propiedades para PlaylistView
+  playlists: Playlist[];
+  filteredTracks: Track[];
+  query: string;
 
   play: (track: Track) => void;
   playPause: () => void;
@@ -24,6 +36,11 @@ export interface PlaylistContextType {
   repeatToggle: () => void;
   addToQueue: (track: Track) => void;
   setCurrentTrack: (track: Track) => void;
+
+  // 👇 nuevas funciones
+  setQuery: (q: string) => void;
+  addPlaylist: (pl: Playlist) => void;
+  removePlaylist: (id: number) => void;
 }
 
 const PlaylistContext = createContext<PlaylistContextType | undefined>(undefined);
@@ -34,6 +51,11 @@ export const PlaylistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [queue, setQueue] = useState<Track[]>([]);
   const [repeat, setRepeat] = useState(false);
+
+  // 👇 nuevas states
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [query, setQuery] = useState("");
+  const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
 
   const tracks: Track[] = (tracksData as {
     tracks: { id: number; title: string; artist?: string; src: string; imageUrl?: string }[];
@@ -103,12 +125,37 @@ export const PlaylistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setQueue((q) => [...q, track]);
   };
 
+  // 👇 nuevas funciones para playlists
+  const addPlaylist = (pl: Playlist) => {
+    setPlaylists((prev) => [...prev, pl]);
+  };
+
+  const removePlaylist = (id: number) => {
+    setPlaylists((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  // 👇 actualizar resultados filtrados cuando cambia query
+  useEffect(() => {
+    if (!query) {
+      setFilteredTracks([]);
+      return;
+    }
+    const allTracks = playlists.flatMap((pl) => pl.tracks);
+    const results = allTracks.filter((t) =>
+      t.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredTracks(results);
+  }, [query, playlists]);
+
   const value: PlaylistContextType = {
     tracks,
     currentTrack,
     isPlaying,
     queue,
     repeat,
+    playlists,
+    filteredTracks,
+    query,
     play,
     playPause,
     prev,
@@ -117,6 +164,9 @@ export const PlaylistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     repeatToggle,
     addToQueue,
     setCurrentTrack,
+    setQuery,
+    addPlaylist,
+    removePlaylist,
   };
 
   return <PlaylistContext.Provider value={value}>{children}</PlaylistContext.Provider>;
