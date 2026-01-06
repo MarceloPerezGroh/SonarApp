@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 import tracksData from "../data/tracks.json";
 
 // Tipo de cada track
@@ -7,17 +7,21 @@ export interface Track {
   title: string;
   artist?: string;
   url: string;
-  imageUrl?: string; // 👈 nueva propiedad opcional
-  audioUrl?: string; // 👈 nueva propiedad opcional
+  imageUrl?: string;
+  audioUrl?: string;
 }
 
-// Tipo del contexto: todas las funciones y estados disponibles
+// Tipo del contexto
 export interface PlayerContextType {
   isPlaying: boolean;
   currentTrack: Track | null;
   queue: Track[];
   repeat: boolean;
-  volume: number; // 👈 nuevo estado de volumen (0–1)
+  volume: number;
+  currentTime: number;
+  duration: number;
+
+  audioRef: React.RefObject<HTMLAudioElement>; // 👈 agregado
 
   play: (track: Track) => void;
   playPause: () => void;
@@ -28,11 +32,11 @@ export interface PlayerContextType {
   addToQueue: (track: Track) => void;
   removeFromQueue: (id: number) => void;
   setCurrentTrack: (track: Track) => void;
-  setVolume: (v: number) => void; // 👈 nueva función para actualizar volumen
+  setVolume: (v: number) => void;
+  seek: (percent: number) => void;
   allTracks: Track[];
 }
 
-// Crear el contexto
 const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -41,9 +45,10 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [queue, setQueue] = useState<Track[]>([]);
   const [repeat, setRepeat] = useState(false);
-  const [volume, setVolumeState] = useState(0.6); // 👈 estado inicial de volumen
+  const [volume, setVolumeState] = useState(0.6);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
-  // Transformar JSON a Track[]
   const allTracks: Track[] = (tracksData as {
     tracks: { id: number; title: string; artist?: string; src: string; imageUrl?: string }[];
   }).tracks.map((t) => ({
@@ -54,10 +59,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     imageUrl: t.imageUrl,
   }));
 
-  // Reproducir un track específico
   const play = (track: Track) => {
     audioRef.current.src = track.url;
-    audioRef.current.volume = volume; // 👈 aplicar volumen actual
+    audioRef.current.volume = volume;
     audioRef.current
       .play()
       .then(() => setIsPlaying(true))
@@ -65,7 +69,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setCurrentTrack(track);
   };
 
-  // Alternar play/pause
   const playPause = () => {
     if (!audioRef.current.src) return;
     if (isPlaying) {
@@ -79,7 +82,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
-  // Ir al track anterior
   const prev = () => {
     if (!currentTrack) return;
     const idx = allTracks.findIndex((t) => t.id === currentTrack.id);
@@ -87,7 +89,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     play(prevTrack);
   };
 
-  // Ir al siguiente track (si hay cola, la usa primero)
   const next = () => {
     if (queue.length > 0) {
       const [first, ...rest] = queue;
@@ -100,13 +101,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
-  // Reproducir un track aleatorio
   const shuffle = () => {
     const randomTrack = allTracks[Math.floor(Math.random() * allTracks.length)];
     play(randomTrack);
   };
 
-  // Alternar repetición
   const repeatToggle = () => {
     setRepeat((r) => {
       const newRepeat = !r;
@@ -115,21 +114,47 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   };
 
-  // Agregar un track a la cola
   const addToQueue = (track: Track) => {
     setQueue((q) => [...q, track]);
   };
 
-  // Eliminar un track de la cola
   const removeFromQueue = (id: number) => {
     setQueue((q) => q.filter((t) => t.id !== id));
   };
 
-  // 👇 Nueva función para actualizar volumen
   const setVolume = (v: number) => {
     setVolumeState(v);
     audioRef.current.volume = v;
   };
+
+  const seek = (percent: number) => {
+    if (!audioRef.current.duration) return;
+    audioRef.current.currentTime = (percent / 100) * audioRef.current.duration;
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    const updateTime = () => {
+      setCurrentTime(audio.currentTime);
+      setDuration(audio.duration || 0);
+    };
+
+    const handleEnded = () => {
+      setIsPlaying(false); // 👈 vuelve al estado pausado
+      // opcional: next(); // si querés que pase al siguiente automáticamente
+    };
+
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("loadedmetadata", updateTime);
+    audio.addEventListener("ended", handleEnded);
+
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("loadedmetadata", updateTime);
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, []);
 
   return (
     <PlayerContext.Provider
@@ -139,6 +164,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         queue,
         repeat,
         volume,
+        currentTime,
+        duration,
+        audioRef, // 👈 ahora expuesto en el contexto
         play,
         playPause,
         prev,
@@ -149,6 +177,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         removeFromQueue,
         setCurrentTrack,
         setVolume,
+        seek,
         allTracks,
       }}
     >
@@ -157,7 +186,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   );
 };
 
-// Hook para consumir el contexto
 export const usePlayer = () => {
   const ctx = useContext(PlayerContext);
   if (!ctx) throw new Error("usePlayer must be used within PlayerProvider");

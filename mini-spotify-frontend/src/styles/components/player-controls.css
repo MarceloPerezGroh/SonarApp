@@ -68,6 +68,14 @@
   width: 100%;
   display: flex;
   align-items: center;
+  gap: 8px; /* espacio entre tiempos y barra */
+}
+
+.time {
+  font-size: 0.85rem;
+  color: #ccc;
+  min-width: 40px; /* ancho fijo para que no se muevan */
+  text-align: center;
 }
 
 .seek {
@@ -79,27 +87,40 @@
 
 /* Track (línea de progreso) */
 .seek::-webkit-slider-runnable-track {
-  height: 1px;                /* grosor real */
-  background: #444;           /* gris tenue */
-  border-radius: 0;
+  height: 4px; /* más visible */
+  background: linear-gradient(
+    to right,
+    #e30867 var(--progress, 0%),
+    #444 var(--progress, 0%)
+  );
+  border-radius: 2px;
 }
 .seek::-moz-range-track {
-  height: 1px;
-  background: #444;
-  border-radius: 0;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    #e30867 var(--progress, 0%),
+    #444 var(--progress, 0%)
+  );
+  border-radius: 2px;
 }
 
 /* Thumb (círculo) */
 .seek::-webkit-slider-thumb {
   appearance: none;
-  width: 0;                   /* invisible */
-  height: 0;
-  background: transparent;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e30867;
+  cursor: pointer;
+  margin-top: -4px; /* alinear con track */
 }
 .seek::-moz-range-thumb {
-  width: 0;
-  height: 0;
-  background: transparent;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e30867;
+  cursor: pointer;
 }
 
 /* Volumen utilitario (solo en footer, costado derecho) */
@@ -144,4 +165,3 @@
   border-radius: 50%;
   background: #fff;
 }
-

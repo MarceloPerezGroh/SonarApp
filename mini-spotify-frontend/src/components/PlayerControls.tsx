@@ -8,7 +8,7 @@ import {
 } from "../icons";
 import "../styles/components/player-controls.css";
 import { usePlayer } from "../context/PlayerContext";
-import { useRef, useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function PlayerControls() {
   const {
@@ -19,36 +19,32 @@ export default function PlayerControls() {
     shuffle,
     repeatToggle,
     currentTrack,
+    audioRef,        // 👈 ahora viene del contexto
+    currentTime,     // 👈 segundos actuales
+    duration,        // 👈 duración total
+    seek,            // 👈 función para mover la línea de tiempo
   } = usePlayer();
 
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [progress, setProgress] = useState(0);
-
-  // Actualiza reproducción y progreso
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    isPlaying ? audio.play() : audio.pause();
-
-    const updateProgress = () => {
-      if (!audio.duration) return;
-      const percent = (audio.currentTime / audio.duration) * 100;
-      setProgress(percent || 0);
-    };
-
-    audio.addEventListener("timeupdate", updateProgress);
-    return () => audio.removeEventListener("timeupdate", updateProgress);
-  }, [isPlaying]);
-
-  // Control de seek (barra de tiempo)
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    if (!audio || !audio.duration) return;
-    const value = parseFloat(e.target.value);
-    audio.currentTime = (value / 100) * audio.duration;
-    setProgress(value);
+  // Formatear minutos:segundos
+  const formatTime = (time: number) => {
+    if (!time || isNaN(time)) return "0:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60)
+      .toString()
+      .padStart(2, "0");
+    return `${minutes}:${seconds}`;
   };
+
+  // Progreso en porcentaje
+  const progress = duration ? (currentTime / duration) * 100 : 0;
+
+  // 👇 Actualizar variable CSS externa en cada cambio de progreso
+  useEffect(() => {
+    const slider = document.querySelector<HTMLInputElement>(".seek");
+    if (slider) {
+      slider.style.setProperty("--progress", `${progress}%`);
+    }
+  }, [progress]);
 
   return (
     <div className="player-controls-wrapper">
@@ -74,18 +70,20 @@ export default function PlayerControls() {
         </button>
       </div>
 
-      {/* Timeline minimalista */}
+      {/* Timeline con minutos y color amarillo */}
       <div className="timeline">
+        <span className="time">{formatTime(currentTime)}</span>
         <input
           type="range"
           min="0"
           max="100"
           step="0.1"
           value={progress}
-          onChange={handleSeek}
+          onChange={(e) => seek(parseFloat(e.target.value))}
           className="seek"
           aria-label="Barra de progreso"
         />
+        <span className="time">{formatTime(duration)}</span>
       </div>
     </div>
   );
