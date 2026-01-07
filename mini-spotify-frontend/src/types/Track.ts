@@ -1,9 +1,12 @@
-// types/Track.ts
-export type Track = {
+// src/types/Track.ts
+export interface Track {
   id: number;
   title: string;
   artist?: string;
   url: string;
   imageUrl?: string;
-  coverUrl: string; 
-};
+  audioUrl?: string;
+  videoUrl?: string;
+  genre?: string;
+  year?: number;
+}

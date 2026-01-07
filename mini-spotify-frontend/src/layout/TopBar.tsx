@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";   // 👈 Importamos Link
 import "../styles/layout/top-bar.css";
 import { SearchIcon, PlayIcon, PlusIcon } from "../icons"; 
 import { usePlayer } from "../context/PlayerContext"; 
 import { Track } from "../types/Track";
+import UploadTrackForm from "../components/UploadTrackForm";
 
 const TopBar: React.FC = () => {
   const { play, addToQueue, allTracks } = usePlayer();
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showUpload, setShowUpload] = useState(false); // 👈 estado para mostrar formulario
+
+  // 👇 escuchamos el evento "close-upload-form" para cerrar el modal desde UploadTrackForm
+  useEffect(() => {
+    const handler = () => setShowUpload(false);
+    document.addEventListener("close-upload-form", handler);
+    return () => document.removeEventListener("close-upload-form", handler);
+  }, []);
 
   const results: Track[] = query
     ? allTracks.filter((t: Track) =>
@@ -81,6 +90,18 @@ const TopBar: React.FC = () => {
         )}
       </div>
 
+      {/* Botón subir minimalista */}
+      <div className="upload-btn-container">
+        <button
+          className="btn-upload"
+          onClick={() => setShowUpload(!showUpload)}
+          aria-label="Subir nuevo track"
+          title="Subir nuevo track"
+        >
+          + Subir
+        </button>
+      </div>
+
       {/* Overlay para cerrar al hacer click fuera */}
       {menuOpen && (
         <div
@@ -102,8 +123,9 @@ const TopBar: React.FC = () => {
           ✕
         </button>
 
-        {/* Bloque superior: About · Licencia · Versión */}
+        {/* Bloque superior: home . About · Licencia · Versión */}
         <div className="sidebar-links">
+          <Link to="http://localhost:5173/" onClick={() => setMenuOpen(false)} aria-label="About" title="About">Home</Link>
           <Link to="/about" onClick={() => setMenuOpen(false)} aria-label="About" title="About">About</Link>
           <Link to="/licencia" onClick={() => setMenuOpen(false)} aria-label="Licencia" title="Licencia">Licencia</Link>
           <Link to="/version" onClick={() => setMenuOpen(false)} aria-label="Versión" title="Versión">Versión</Link>
@@ -119,6 +141,9 @@ const TopBar: React.FC = () => {
         </div>
         <p className="sidebar-footer">© 2026 Dev MarceloPerezGroh</p>
       </nav>
+
+      {/* Formulario de subida (modal simple) */}
+      {showUpload && <UploadTrackForm />}
     </header>
   );
 };
