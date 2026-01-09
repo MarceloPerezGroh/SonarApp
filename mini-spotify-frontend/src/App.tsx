@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { PlayerProvider, usePlayer } from "./context/PlayerContext"; // 👈 importamos usePlayer
+import { PlayerProvider, usePlayer } from "./context/PlayerContext";
 import TopBar from "./layout/TopBar";
 import PlayerControls from "./components/PlayerControls";
 import QueueView from "./components/QueueView";
@@ -15,13 +15,13 @@ import "./styles/_variables.css";
 import "./styles/_base.css";
 import "./App.css";
 
-// 👇 Nuevo componente para el slider conectado al contexto
+// 👇 Slider de volumen conectado al contexto
 const VolumeSlider: React.FC = () => {
   const { volume, setVolume } = usePlayer();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = Number(e.target.value);
-    setVolume(newVolume); // actualiza contexto y audioRef
+    setVolume(newVolume);
   };
 
   return (
@@ -41,16 +41,20 @@ const VolumeSlider: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  // 👇 estado para abrir/cerrar el footer (por defecto abierto)
+  const [isFooterOpen, setIsFooterOpen] = useState(true);
+
+  const toggleFooter = () => setIsFooterOpen(!isFooterOpen);
+
   return (
     <PlayerProvider>
       <div className="app">
         {/* Header fijo */}
         <TopBar />
 
-        {/* 👇 El contenido central cambia según la ruta */}
+        {/* Contenido central según ruta */}
         <main className="app-main">
           <Routes>
-            {/* Página principal con reproductor */}
             <Route
               path="/"
               element={
@@ -64,8 +68,6 @@ const App: React.FC = () => {
                 </>
               }
             />
-
-            {/* Páginas informativas */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/licencia" element={<LicenciaPage />} />
             <Route path="/version" element={<VersionPage />} />
@@ -74,11 +76,24 @@ const App: React.FC = () => {
 
         {/* Footer fijo */}
         <footer className="app-footer">
-          <div className="player-controls-wrapper">
-            <PlayerControls />
-          </div>
-          {/* 👇 reemplazamos el bloque de volumen por el componente conectado */}
-          <VolumeSlider />
+          {/* Botón cerrar/abrir en esquina superior derecha */}
+          <button
+            className="player-toggle-btn"
+            onClick={toggleFooter}
+            aria-label={isFooterOpen ? "Cerrar reproductor" : "Abrir reproductor"}
+          >
+            {isFooterOpen ? "✕" : "▾"}
+          </button>
+
+          {/* Contenido del footer */}
+          {isFooterOpen && (
+            <>
+              <div className="player-controls-wrapper">
+                <PlayerControls />
+              </div>
+              <VolumeSlider />
+            </>
+          )}
         </footer>
       </div>
     </PlayerProvider>

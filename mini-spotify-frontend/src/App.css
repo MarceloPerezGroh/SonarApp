@@ -59,7 +59,6 @@
   border-right: 1px solid #333;
 }
 
-/* Footer / Player bar */
 .app-footer {
   background-color: #181818;
   padding: 12px 20px;
@@ -69,6 +68,26 @@
   border-top: 1px solid #333;
   position: sticky;
   bottom: 0;
+  position: relative; /* 👈 necesario para ubicar el botón toggle */
+}
+
+/* Botón cerrar/abrir minimalista */
+.player-toggle-btn {
+  position: absolute;
+  top: 1.5px;     /* más pegado al borde superior */
+  right: 1.5px;   /* más pegado al borde derecho */
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem; /* un poco más grande para visibilidad */
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 10; /* asegura que quede por encima del volumen */
+}
+
+.player-toggle-btn:hover {
+  color: #333;
+  transform: scale(1.1);
 }
 
 

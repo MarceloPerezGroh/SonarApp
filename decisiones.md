@@ -13,3 +13,5 @@ Esta elección facilita el desarrollo y las pruebas del reproductor,
 el buscador y las playlists sin introducir complejidad innecesaria en etapas
 tempranas del proyecto.
 
+-Ultima modificacion se agrego boton de cerrar y abrir al APP-FOOTER , pero falta arreglar
+cuando se cierra , porque apaga la reproduccion.
