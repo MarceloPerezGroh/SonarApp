@@ -211,15 +211,6 @@
       "imageUrl": "/images/predeterminada.jpg",
       "genre": "Techno", 
       "year": 1990
-    },
-    {
-      "id": 31,
-      "title": "Clubnight1998",
-      "artist": "DJ E.L.B",
-      "audioUrl": "https://ia800600.us.archive.org/35/items/Clubnight1998/Clubnight%201998.01.03%20-%20Heinz%20Felber%20feat.%20DJ%20Chris%20%26%20Carsten%20Fillinger.mp3",
-      "imageUrl": "/images/post-detroit-techno.jpg",
-      "genre": "Techno", 
-      "year": 1998
     }
   ]
 }

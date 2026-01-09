@@ -85,7 +85,7 @@ const App: React.FC = () => {
             {isFooterOpen ? "✕" : "▾"}
           </button>
 
-          {/* Contenido del footer */}
+          {/* Contenido del footer (solo UI, no afecta reproducción) */}
           {isFooterOpen && (
             <>
               <div className="player-controls-wrapper">

@@ -253,6 +253,10 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }}
     >
       {children}
+
+      {/* 👇 estos elementos SIEMPRE montados, garantizan que la reproducción no se corte */}
+      <audio ref={audioRef} />
+      <video ref={videoRef} className="hidden-video" />
     </PlayerContext.Provider>
   );
 };

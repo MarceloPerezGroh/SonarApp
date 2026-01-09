@@ -40,10 +40,8 @@ export default function PlayerControls() {
 
   // 👇 Actualizar variable CSS externa en cada cambio de progreso
   useEffect(() => {
-    const slider = document.querySelector<HTMLInputElement>(".seek");
-    if (slider) {
-      slider.style.setProperty("--progress", `${progress}%`);
-    }
+    const root = document.documentElement;
+    root.style.setProperty("--progress", `${progress}%`);
   }, [progress]);
 
   return (
