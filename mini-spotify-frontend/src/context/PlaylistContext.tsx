@@ -23,7 +23,7 @@ export interface PlaylistContextType {
   queue: Track[];
   repeat: boolean;
 
-  // 👇 nuevas propiedades para PlaylistView
+  // propiedades para PlaylistView
   playlists: Playlist[];
   filteredTracks: Track[];
   query: string;

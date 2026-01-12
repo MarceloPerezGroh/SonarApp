@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../api/client";
+import api from "../api/client"; 
 import { useAuth } from "../auth/authContext";
-import "./PlaylistDetail.css";   // 👈 importamos estilos
+import "./PlaylistDetail.css";   
 
 interface Song {
   id: string;
@@ -25,7 +25,8 @@ function PlaylistDetail() {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const res = await api.get(`/playlists/${id}`, {
+        // ✅ Tipamos la respuesta para evitar "unknown"
+        const res = await api.get<Playlist>(`/playlists/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPlaylist(res.data);
@@ -36,11 +37,11 @@ function PlaylistDetail() {
     if (token) fetchDetail();
   }, [id, token]);
 
-  if (error) return <p className="error">{error}</p>;   // 👈 clase CSS
-  if (!playlist) return <p className="loading">Cargando...</p>; // 👈 clase CSS
+  if (error) return <p className="error">{error}</p>;   
+  if (!playlist) return <p className="loading">Cargando...</p>; 
 
   return (
-    <div>
+    <div className="playlist-detail">
       <h2>{playlist.name}</h2>
       <ul>
         {playlist.songs.map((s) => (

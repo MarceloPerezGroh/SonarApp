@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../api/client";
 import { useAuth } from "../auth/authContext";
-import "./PlaylistForm.css";   // 👈 importamos el CSS
+import "./PlaylistForm.css";  
 
 interface Playlist {
   id: string;

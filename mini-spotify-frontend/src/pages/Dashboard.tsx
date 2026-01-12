@@ -1,5 +1,5 @@
 import { useState } from "react";
-import tracksData from "../data/tracks.json"; // tu JSON con los tracks
+import tracksData from "../data/tracks.json"; 
 import { Track } from "../types/Track";
 import TrackList from "../components/TrackList";
 import Player from "../components/Player";

@@ -9,4 +9,5 @@ export interface Track {
   videoUrl?: string;
   genre?: string;
   year?: number;
+  coverUrl?: string; 
 }

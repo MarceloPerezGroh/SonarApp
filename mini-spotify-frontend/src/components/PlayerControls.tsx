@@ -68,7 +68,7 @@ export default function PlayerControls() {
         </button>
       </div>
 
-      {/* Timeline con minutos y color amarillo */}
+      {/* Timeline con minutos y color */}
       <div className="timeline">
         <span className="time">{formatTime(currentTime)}</span>
         <input

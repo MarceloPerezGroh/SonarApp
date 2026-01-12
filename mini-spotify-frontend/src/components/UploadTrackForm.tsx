@@ -35,7 +35,7 @@ const UploadTrackForm: React.FC = () => {
       return;
     }
 
-    addTrack(newTrack, persist); // 👈 ahora soporta persistencia opcional
+    addTrack(newTrack, persist); 
     alert(persist ? "Track guardado!" : "Track agregado temporalmente!");
 
     // Reset

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Track } from "../types/Track";
 import { usePlayer } from "../context/PlayerContext";
-import tracksData from "./data/tracks.json";
+import tracksData from "../data/tracks.json";
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState("");

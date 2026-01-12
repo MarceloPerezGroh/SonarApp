@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 import tracksData from "../data/tracks.json";
-import { Track as GlobalTrack } from "../types/Track"; // 👈 renombramos la importación
+import { Track as GlobalTrack } from "../types/Track"; 
 
 // Tipo de cada track (local extendido)
 export interface Track extends GlobalTrack {
-  url: string;        // puede ser audio o video
+  url: string;        
   audioUrl?: string;
   videoUrl?: string;
-  genre?: string;     // 👈 agregado
-  year?: number;      // 👈 agregado
+  genre?: string;     
+  year?: number;      
 }
 
 // Tipo del contexto
@@ -25,6 +25,7 @@ export interface PlayerContextType {
   videoRef: React.RefObject<HTMLVideoElement>;
 
   play: (track: Track) => void;
+  playTrack: (track: Track) => void; // 👈 agregado para compatibilidad con Search
   playPause: () => void;
   prev: () => void;
   next: () => void;
@@ -238,6 +239,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         audioRef,
         videoRef,
         play,
+        playTrack: play, // 👈 agregado como alias
         playPause,
         prev,
         next,
@@ -249,7 +251,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setVolume,
         seek,
         allTracks,
-        addTrack, // 👈 ahora soporta persistencia opcional
+        addTrack,
       }}
     >
       {children}
