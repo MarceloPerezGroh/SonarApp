@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../api/client"; 
 import { useAuth } from "../auth/authContext";
 import "./PlaylistDetail.css";   
 
@@ -25,13 +24,21 @@ function PlaylistDetail() {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        // ✅ Tipamos la respuesta para evitar "unknown"
-        const res = await api.get<Playlist>(`/playlists/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
+        const res = await fetch(`/playlists/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
-        setPlaylist(res.data);
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.message || "Error al cargar playlist");
+        }
+
+        const data: Playlist = await res.json();
+        setPlaylist(data);
       } catch (err: any) {
-        setError(err.response?.data?.message || "Error al cargar playlist");
+        setError(err.message || "Error al cargar playlist");
       }
     };
     if (token) fetchDetail();
@@ -55,3 +62,4 @@ function PlaylistDetail() {
 }
 
 export default PlaylistDetail;
+

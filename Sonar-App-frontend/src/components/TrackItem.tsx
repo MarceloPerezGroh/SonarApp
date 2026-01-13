@@ -1,6 +1,6 @@
 import React from "react";
 import { Track } from "../types/Track";
-import "./TrackItem.css";
+import "../styles/components/track-item.css";
 
 interface Props {
   track: Track;
@@ -8,6 +8,12 @@ interface Props {
 }
 
 const TrackItem: React.FC<Props> = ({ track, onSelect }) => {
+  // 👇 resolvemos artista de forma segura
+  const artistName: string =
+    typeof track.artist === "string"
+      ? track.artist
+      : track.artist?.name ?? "Artista desconocido";
+
   return (
     <div className="track-item" onClick={() => onSelect(track)}>
       <img
@@ -17,7 +23,7 @@ const TrackItem: React.FC<Props> = ({ track, onSelect }) => {
       />
       <div className="track-info">
         <div className="track-title">{track.title}</div>
-        <div className="track-artist">{track.artist}</div>
+        <div className="track-artist">{artistName}</div>
       </div>
     </div>
   );

@@ -1,19 +1,9 @@
-
-C:\USERS\USER\PICTURES\MINI-SPOTIFY.01\MINI-SPOTIFY-FRONTEND\SRC
+C:\USERS\USER\PICTURES\SONAR-APP\SONAR-APP-FRONTEND\SRC
 │   App.css
 │   App.tsx
 │   index.css
 │   main.tsx
 │   vite-env.d.ts
-│
-├───api
-│       axios.ts
-│       client.ts
-│       soundcloud.ts
-│
-├───assets
-│       react.svg
-│       vite.svg
 │
 ├───auth
 │       authContext.tsx
@@ -21,32 +11,27 @@ C:\USERS\USER\PICTURES\MINI-SPOTIFY.01\MINI-SPOTIFY-FRONTEND\SRC
 │       register.tsx
 │
 ├───components
-│       addSongForm.tsx
+│       AddSongForm.tsx
+│       GenreFilter.tsx
 │       Layout.tsx
-│       LoginForm.css
-│       LoginForm.tsx
 │       MainPlayerView.tsx
 │       MediaDisplay.tsx
 │       NowPlayingImage.tsx
 │       Player.tsx
-│       PlayerBar.css
 │       PlayerBar.tsx
 │       PlayerControls.tsx
-│       PlaylistForm.css
-│       playlistForm.tsx
+│       PlayerLayout.tsx
+│       PlaylistForm.tsx
 │       PlaylistItem.tsx
-│       playlistList.css
-│       playlistList.tsx
-│       PlaylistPanel.css
-│       PlaylistPanel.tsx
+│       PlaylistList.tsx
 │       PlaylistView.tsx
 │       ProgressBar.tsx
-│       ProtectedRoute.tsx
+│       QueueSection.tsx
 │       QueueView.tsx
 │       SearchInput.tsx
-│       TrackCard.css
-│       TrackCard.tsx
+│       TrackItem.tsx
 │       TrackList.tsx
+│       UploadTrackForm.tsx
 │       VolumeControl.tsx
 │
 ├───context
@@ -74,47 +59,47 @@ C:\USERS\USER\PICTURES\MINI-SPOTIFY.01\MINI-SPOTIFY-FRONTEND\SRC
 │       TopBar.tsx
 │
 ├───pages
+│       AboutPage.tsx
 │       Dashboard.css
 │       Dashboard.tsx
-│       DashboardPage.tsx
-│       Home.css
-│       Home.tsx
-│       LoginPage.tsx
+│       LicenciaPage.tsx
 │       playlistDetail.tsx
-│       PlaylistsForm.tsx
 │       Search.tsx
+│       VersionPage.tsx
 │
 ├───routes
 │       ProtectedRoute.tsx
 │
 ├───services
-│       musicService.ts
 │       musicTrack.ts
 │
 ├───styles
+│   │   global.css
+│   │   page.css
 │   │   _base.css
 │   │   _variables.css
 │   │
 │   ├───components
 │   │       main-player-view.css
 │   │       media-display.css
+│   │       player-bar.css
 │   │       player-controls.css
+│   │       player-layout.css
+│   │       playlist-form.css
 │   │       playlist-item.css
 │   │       playlist-view.css
 │   │       progress-bar.css
+│   │       queue-section.css
 │   │       queue-view.css
-│   │       search-input.css
+│   │       track-item.css
+│   │       upload-track-form.css
 │   │       volumen-control.css
 │   │
 │   └───layout
-│           app-layout.css
 │           BottomPlayer.css
 │           search-input.css
 │           Sidebar.css
 │           top-bar.css
 │
-├───types
-│       Track.ts
-│
-└───utils
-        api.ts
+└───types
+        Track.ts

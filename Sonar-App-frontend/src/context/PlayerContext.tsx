@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 import tracksData from "../data/tracks.json";
 import { Track as GlobalTrack } from "../types/Track"; 
@@ -15,6 +16,7 @@ export interface Track extends GlobalTrack {
 export interface PlayerContextType {
   isPlaying: boolean;
   currentTrack: Track | null;
+  trackActual: Track | null;        // 👈 alias para compatibilidad
   queue: Track[];
   repeat: boolean;
   volume: number;
@@ -25,8 +27,9 @@ export interface PlayerContextType {
   videoRef: React.RefObject<HTMLVideoElement>;
 
   play: (track: Track) => void;
-  playTrack: (track: Track) => void; // 👈 agregado para compatibilidad con Search
+  playTrack: (track: Track) => void; // 👈 alias para compatibilidad con Search
   playPause: () => void;
+  pause: () => void;                 // 👈 agregado para compatibilidad con PlayerBar
   prev: () => void;
   next: () => void;
   shuffle: () => void;
@@ -37,7 +40,7 @@ export interface PlayerContextType {
   setVolume: (v: number) => void;
   seek: (percent: number) => void;
   allTracks: Track[];
-  addTrack: (track: Track, persist?: boolean) => void; // 👈 ahora acepta persist opcional
+  addTrack: (track: Track, persist?: boolean) => void;
 }
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -54,7 +57,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // 👇 ahora allTracks es estado, inicializado desde JSON o localStorage
+  // 👇 allTracks inicializado desde JSON o localStorage
   const [allTracks, setAllTracks] = useState<Track[]>(() => {
     const saved = localStorage.getItem("tracks");
     if (saved) {
@@ -132,6 +135,13 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         .then(() => setIsPlaying(true))
         .catch(() => setIsPlaying(false));
     }
+  };
+
+  const pause = () => {
+    const element = currentTrack?.videoUrl ? videoRef.current : audioRef.current;
+    if (!element?.src) return;
+    element.pause();
+    setIsPlaying(false);
   };
 
   const prev = () => {
@@ -231,6 +241,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       value={{
         isPlaying,
         currentTrack,
+        trackActual: currentTrack, // 👈 alias
         queue,
         repeat,
         volume,
@@ -239,8 +250,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         audioRef,
         videoRef,
         play,
-        playTrack: play, // 👈 agregado como alias
+        playTrack: play,
         playPause,
+        pause,
         prev,
         next,
         shuffle,
@@ -255,8 +267,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }}
     >
       {children}
-
-      {/* 👇 estos elementos SIEMPRE montados, garantizan que la reproducción no se corte */}
       <audio ref={audioRef} />
       <video ref={videoRef} className="hidden-video" />
     </PlayerContext.Provider>

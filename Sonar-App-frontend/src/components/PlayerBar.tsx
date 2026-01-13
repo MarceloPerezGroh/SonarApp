@@ -1,7 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import { usePlayer } from "../context/PlayerContext";
 import { usePlaylist } from "../context/PlaylistContext";
-import "./PlayerBar.css";
+import "../styles/components/player-bar.css";
+
+// 👇 extendemos el tipo Track para que tenga preview y artist flexible
+interface Track {
+  id: number | string;
+  title: string;
+  artist?: string | { name: string };
+  url?: string;
+  preview?: string;
+}
 
 const PlayerBar: React.FC = () => {
   const { trackActual, isPlaying, pause, playTrack } = usePlayer();
@@ -32,12 +41,18 @@ const PlayerBar: React.FC = () => {
     return <div className="player-bar">No hay pista seleccionada</div>;
   }
 
+  // 👇 resolvemos artista de forma segura
+  const artistName: string =
+    typeof trackActual.artist === "string"
+      ? trackActual.artist
+      : trackActual.artist?.name ?? "Artista desconocido";
+
   return (
     <div className="player-bar">
-      <p>{trackActual.title} — {trackActual.artist.name}</p>
+      <p>{trackActual.title} — {artistName}</p>
       <audio
         ref={audioRef}
-        src={trackActual.preview} // ✅ ahora usamos el preview de Deezer
+        src={trackActual.preview || trackActual.url || ""} 
         onEnded={handleEnded}
       />
       {isPlaying ? (

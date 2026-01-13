@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { usePlayer } from "../context/PlayerContext";
 import { Track } from "../types/Track";
-import "./upload-track-form.css";
+import "../styles/components/upload-track-form.css";
+
 
 const UploadTrackForm: React.FC = () => {
   const { allTracks, addTrack } = usePlayer();

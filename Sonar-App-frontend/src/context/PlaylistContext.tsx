@@ -25,11 +25,13 @@ export interface PlaylistContextType {
 
   // propiedades para PlaylistView
   playlists: Playlist[];
+  playlist: Track[];                 // 👈 alias para compatibilidad con PlayerBar
   filteredTracks: Track[];
   query: string;
 
   play: (track: Track) => void;
   playPause: () => void;
+  pause: () => void;                 // 👈 agregado para compatibilidad
   prev: () => void;
   next: () => void;
   shuffle: () => void;
@@ -87,6 +89,12 @@ export const PlaylistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         .then(() => setIsPlaying(true))
         .catch(() => setIsPlaying(false));
     }
+  };
+
+  const pause = () => {
+    if (!audioRef.current.src) return;
+    audioRef.current.pause();
+    setIsPlaying(false);
   };
 
   const prev = () => {
@@ -154,10 +162,12 @@ export const PlaylistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     queue,
     repeat,
     playlists,
+    playlist: tracks,       // 👈 alias expuesto
     filteredTracks,
     query,
     play,
     playPause,
+    pause,
     prev,
     next,
     shuffle,

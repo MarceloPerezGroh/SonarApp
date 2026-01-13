@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import api from "../api/client";
 import { useAuth } from "./useAuth";
 
 // 🔹 Tipo Playlist extendido
@@ -21,10 +20,16 @@ export function usePlaylists() {
     setLoading(true);
     setError(null);
     try {
-      const res = await api.get<Playlist[]>("/playlists", {
+      const res = await fetch("/playlists", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setPlaylists(res.data);
+
+      if (!res.ok) {
+        throw new Error("Error al cargar playlists");
+      }
+
+      const data: Playlist[] = await res.json();
+      setPlaylists(data);
     } catch (err) {
       setError("Error al cargar playlists");
     } finally {
@@ -37,16 +42,26 @@ export function usePlaylists() {
     if (!token) return;
     setError(null);
     try {
-      const res = await api.post<Playlist>(
-        "/playlists",
-        { name },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await fetch("/playlists", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.message || "Error al crear playlist");
+      }
+
+      const data: Playlist = await res.json();
       // Actualizamos lista local
-      setPlaylists((prev) => [...prev, res.data]);
-      return res.data;
-    } catch (err) {
-      setError("Error al crear playlist");
+      setPlaylists((prev) => [...prev, data]);
+      return data;
+    } catch (err: any) {
+      setError(err.message || "Error al crear playlist");
       throw err;
     }
   };

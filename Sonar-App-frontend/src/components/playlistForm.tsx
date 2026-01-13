@@ -1,7 +1,7 @@
 import { useState } from "react";
-import api from "../api/client";
 import { useAuth } from "../auth/authContext";
-import "./PlaylistForm.css";  
+import "../styles/components/playlist-form.css";
+
 
 interface Playlist {
   id: string;
@@ -22,15 +22,25 @@ function PlaylistForm({ onCreated }: Props) {
     setError("");
 
     try {
-      const res = await api.post<Playlist>(
-        "/playlists",
-        { name },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      onCreated(res.data);
+      const res = await fetch("/playlists", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.message || "Error al crear playlist");
+      }
+
+      const data: Playlist = await res.json();
+      onCreated(data);
       setName("");
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error al crear playlist");
+      setError(err.message || "Error al crear playlist");
     }
   };
 

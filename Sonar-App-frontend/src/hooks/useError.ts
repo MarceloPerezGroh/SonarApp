@@ -1,5 +1,3 @@
-//8.2
-
 import { useState, useCallback } from "react";
 
 export function useError() {

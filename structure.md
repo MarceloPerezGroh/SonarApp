@@ -1,31 +1,48 @@
-Mini-Spotify.01/
-├── src/                                 👈 // backend
-│   ├── assets/
-│   │   └── images/
-│   │
-│   ├── config/
-│   │
-│   ├── controllers/
-│   │
-│   ├── lib/
-│   │
-│   ├── middlewares/
-│   │
-│   ├── routes/
-│   │
-│   ├── schemas/
-│   │
-│   ├── services/
-│   │
-│   ├── types/
-│   │
-│   ├── app.ts
-│   └── server.ts
+C:\USERS\USER\PICTURES\SONAR-APP\SRC
+│   app.ts
+│   server.ts
 │
-├── docs/              👈 documentación (clave)
-│   ├── structure.md   ✅ conceptual (a mano)
-│   └── tree-backend.txt  ✅ generado (automático)
+├───assets
+│   └───images
+│           default-logo.png.png
+│           placeholder-cover.jpg.jpg
 │
-├── package.json
-├── tsconfig.json
-└── README.md
+├───config
+│       env.ts
+│
+├───controllers
+│       auth.controller.ts
+│       playlist.controller.ts
+│
+├───lib
+│       prisma.ts
+│
+├───middlewares
+│       auth.middleware.ts
+│       error.middleware.ts
+│       validate.ts
+│
+├───routes
+│       auth.js
+│       auth.routes.ts
+│       index.ts
+│       playlist.routes.ts
+│
+├───schemas
+│       playlist.schema.ts
+│
+├───services
+│       auth.ts
+│       getLocalTracks.ts
+│       playlist.service.ts
+│
+└───types
+    │   ErrorResponse.ts
+    │   express.d.ts
+    │   RequestWithUser.ts
+    │   UserPayload.ts
+    │
+    └───utils
+            hash.ts
+            jwt.ts
+            logger.ts

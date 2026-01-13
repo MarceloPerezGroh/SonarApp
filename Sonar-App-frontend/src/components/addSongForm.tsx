@@ -1,6 +1,4 @@
 import { useState } from "react";
-import api from "../api/client";
-import { useAuth } from "../auth/authContext";
 
 interface Song {
   id: string;
@@ -14,24 +12,24 @@ interface Props {
 }
 
 function AddSongForm({ playlistId, onSongAdded }: Props) {
-  const { token } = useAuth();
   const [songId, setSongId] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await api.post<Song>(
-        `/playlists/${playlistId}/songs`,
-        { songId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      onSongAdded(res.data); // actualiza estado local en PlaylistDetail
+      const newSong: Song = {
+        id: songId,
+        title: `Canción ${songId}`,
+        artist: "Artista desconocido",
+      };
+
+      onSongAdded(newSong); // actualiza estado local en PlaylistDetail
       setSongId("");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Error al agregar canción");
+    } catch {
+      setError("Error al agregar canción");
     }
   };
 
