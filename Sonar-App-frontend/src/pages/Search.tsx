@@ -3,6 +3,13 @@ import { Track } from "../types/Track";
 import { usePlayer } from "../context/PlayerContext";
 import tracksData from "../data/tracks.json";
 
+// 👇 Función auxiliar para convertir cualquier campo a string
+const toText = (field: string | { name: string } | undefined): string => {
+  if (typeof field === "string") return field;
+  if (field && typeof field === "object" && "name" in field) return field.name;
+  return "";
+};
+
 const Search: React.FC = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Track[]>([]);
@@ -22,9 +29,9 @@ const Search: React.FC = () => {
     try {
       const allTracks: Track[] = tracksData.tracks.map((t) => ({
         id: t.id,
-        title: t.title,
-        artist: t.artist,
-        url: t.src, // 👈 transformamos src → url
+        title: toText(t.title),  
+        artist: toText(t.artist), 
+        url: t.src, 
       }));
 
       const filtered = allTracks.filter((t) =>
@@ -62,7 +69,7 @@ const Search: React.FC = () => {
       <ul>
         {results.map((track) => (
           <li key={track.id}>
-            <span>{track.title} — {track.artist}</span>
+            <span>{toText(track.title)} — {toText(track.artist)}</span>
             <div className="actions">
               <button onClick={() => addToQueue(track)}>➕ Agregar a reproducción</button>
               <button onClick={() => playTrack(track)}>▶ Reproducir ahora</button>
