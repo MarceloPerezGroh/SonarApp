@@ -5,8 +5,8 @@ const baseProps = {
   viewBox: "0 0 24 24",
   width: 24,
   height: 24,
-  fill: "currentColor", // 👈 usa el color del texto actual
-  "aria-hidden": true,  // 👈 accesibilidad: no lo lee el screen reader
+  fill: "currentColor", 
+  "aria-hidden": true, 
 };
 
 export const HomeIcon = () => (

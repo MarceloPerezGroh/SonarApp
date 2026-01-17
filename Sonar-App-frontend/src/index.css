@@ -1,7 +1,7 @@
 /* Tema oscuro base */
 :root {
-  --color-bg: #121212;        /* gris muy oscuro */
-  --color-text: #e5e5e5;      /* texto claro */
+  --color-bg: #121212;        
+  --color-text: #e5e5e5;      
   --color-primary: #19191a;   
 }
 

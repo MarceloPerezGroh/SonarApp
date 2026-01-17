@@ -1,12 +1,12 @@
 .sidebar {
   background: var(--bg-elevated);
   border-right: 1px solid var(--outline);
-  padding: 16px;                  /* un poco más de aire */
+  padding: 16px;                 
   display: flex;
   flex-direction: column;
-  gap: 16px;                      /* separación más clara entre bloques */
-  min-width: 240px;               /* ancho mínimo para consistencia */
-  border-radius: 10px;   /**/
+  gap: 16px;                     
+  min-width: 240px;               
+  border-radius: 10px;  
 }
 
 .sidebar-header {
@@ -18,7 +18,7 @@
 .sidebar-header h3 {
   margin: 0;
   font-weight: 600;
-  font-size: 1rem;                /* tamaño consistente */
+  font-size: 1rem;               
   color: var(--text-primary);
 }
 
@@ -31,7 +31,7 @@
   background: var(--pill);
   color: var(--text);
   border-radius: 999px;
-  padding: 6px 12px;              /* más compacto */
+  padding: 6px 12px;              
   font-size: 0.85rem;
   font-weight: 500;
   transition: background 0.2s ease;
@@ -39,13 +39,13 @@
 }
 
 .pill:hover {
-  background: var(--pill-hover);  /* estado hover */
+  background: var(--pill-hover);  
 }
 
 .sidebar-search {
   display: flex;
   align-items: center;
-  gap: 8px;                       /* separación entre icono y input */
+  gap: 8px;                      
   padding: 8px;
   background: var(--bg-secondary);
   border-radius: 6px;
@@ -67,7 +67,7 @@
 .sidebar-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;                      /* más aire entre ítems */
+  gap: 10px;                      
 }
 
 .sidebar-list-item {

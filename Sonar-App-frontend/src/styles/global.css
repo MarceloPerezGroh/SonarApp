@@ -25,7 +25,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* evita que el scroll afecte al media-section */
+  overflow: hidden; 
 }
 
 .footer {

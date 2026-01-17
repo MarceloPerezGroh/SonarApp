@@ -19,10 +19,10 @@ export default function PlayerControls() {
     shuffle,
     repeatToggle,
     currentTrack,
-    audioRef,        // 👈 ahora viene del contexto
-    currentTime,     // 👈 segundos actuales
-    duration,        // 👈 duración total
-    seek,            // 👈 función para mover la línea de tiempo
+    audioRef,        
+    currentTime,     
+    duration,        
+    seek,            
   } = usePlayer();
 
   // Formatear minutos:segundos

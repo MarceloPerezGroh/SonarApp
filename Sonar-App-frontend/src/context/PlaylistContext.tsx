@@ -25,13 +25,13 @@ export interface PlaylistContextType {
 
   // propiedades para PlaylistView
   playlists: Playlist[];
-  playlist: Track[];                 // 👈 alias para compatibilidad con PlayerBar
+  playlist: Track[];                
   filteredTracks: Track[];
   query: string;
 
   play: (track: Track) => void;
   playPause: () => void;
-  pause: () => void;                 // 👈 agregado para compatibilidad
+  pause: () => void;              
   prev: () => void;
   next: () => void;
   shuffle: () => void;

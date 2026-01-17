@@ -16,7 +16,7 @@ export interface Track extends GlobalTrack {
 export interface PlayerContextType {
   isPlaying: boolean;
   currentTrack: Track | null;
-  trackActual: Track | null;        // 👈 alias para compatibilidad
+  trackActual: Track | null;        
   queue: Track[];
   repeat: boolean;
   volume: number;
@@ -27,9 +27,9 @@ export interface PlayerContextType {
   videoRef: React.RefObject<HTMLVideoElement>;
 
   play: (track: Track) => void;
-  playTrack: (track: Track) => void; // 👈 alias para compatibilidad con Search
+  playTrack: (track: Track) => void; 
   playPause: () => void;
-  pause: () => void;                 // 👈 agregado para compatibilidad con PlayerBar
+  pause: () => void;              
   prev: () => void;
   next: () => void;
   shuffle: () => void;
@@ -241,7 +241,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       value={{
         isPlaying,
         currentTrack,
-        trackActual: currentTrack, // 👈 alias
+        trackActual: currentTrack,
         queue,
         repeat,
         volume,

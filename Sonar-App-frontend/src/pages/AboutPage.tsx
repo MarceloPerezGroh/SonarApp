@@ -1,6 +1,5 @@
 import React from "react";
-import "../styles/page.css"; // 👈 estilo común para páginas
-
+import "../styles/page.css"; 
 const AboutPage: React.FC = () => {
   return (
     <div className="page-container">

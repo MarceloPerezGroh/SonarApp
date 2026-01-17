@@ -3,7 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 import type { ReactElement } from "react";
 
 interface ProtectedRouteProps {
-  children: ReactElement; // 👈 usamos ReactElement en vez de JSX.Element
+  children: ReactElement;
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps): ReactElement {

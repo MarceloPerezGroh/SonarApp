@@ -1,6 +1,6 @@
 .queue-section {
-  flex: 0 0 35%;           /* ocupa un 35% de la altura total */
-  overflow-y: auto;        /* 👈 scroll solo aquí */
+  flex: 0 0 35%;           
+  overflow-y: auto;       
   background: var(--bg-primary);
   padding: 1rem;
   border-top: 1px solid #333;

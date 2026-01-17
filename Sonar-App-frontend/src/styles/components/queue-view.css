@@ -1,13 +1,13 @@
 /* Sidebar de la lista */
 .queue-section {
-  flex: 0 0 22%;              /* ocupa ~22% del ancho total */
-  max-width: 300px;           /* límite para que no se expanda demasiado */
+  flex: 0 0 22%;             
+  max-width: 300px;           
   background-color: #181818;
   border-right: 1px solid #333;
   padding: 12px;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 120px); /* altura total menos header+footer */
+  height: calc(100vh - 120px); 
   overflow-y: auto;
 }
 
@@ -16,7 +16,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 8px;              /* compacto */
+  padding: 6px 8px;            
   border-bottom: 1px solid #2a2a2a;
   color: #fff;
   font-size: 0.9rem;
@@ -24,7 +24,7 @@
 }
 
 .queue-item:hover {
-  background: rgba(255, 0, 170, 0.05); /* highlight magenta al pasar */
+  background: rgba(255, 0, 170, 0.05); 
 }
 
 .track-title {

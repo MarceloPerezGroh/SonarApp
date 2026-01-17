@@ -1,12 +1,12 @@
 .player-layout {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--footer-height)); /* ocupa toda la pantalla menos el footer */
+  height: calc(100vh - var(--footer-height)); 
 }
 
-/* Sección de la imagen: fija, ocupa ~65% */
+/* Sección de la imagen*/
 .media-section {
-  flex: 0 0 65%;             /* altura fija relativa */
+  flex: 0 0 65%;             
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,10 +14,10 @@
   border-bottom: 1px solid #333;
 }
 
-/* Sección de la cola: ocupa el resto (~35%) y tiene scroll */
+
 .queue-section {
-  flex: 1;                   /* ocupa el espacio restante */
-  overflow-y: auto;           /* 👈 scroll solo aquí */
+  flex: 1;                   
+  overflow-y: auto;        
   background: var(--bg-primary);
   padding: 1rem;
 }

@@ -1,5 +1,6 @@
 {
-  "name": "mini-spotify-frontend",
+  "name": "sonar-app",
+  "description": "SONAR is a modern frontend music streaming demo inspired by Spotify, built with React, TypeScript and Vite as a professional portfolio project.",
   "private": true,
   "version": "0.0.0",
   "type": "module",

@@ -10,7 +10,7 @@
 /* Header */
 .app-header {
   padding: 16px;
-  background: linear-gradient(90deg, #ff00aa, #ff33cc); /* degradado magenta */
+  background: linear-gradient(90deg, #ff00aa, #ff33cc); 
   color: #fff;
   text-align: center;
   font-size: 1.6rem;
@@ -23,10 +23,10 @@
 .app-main {
   display: flex;
   flex-direction: row;
-  flex: 1; /* ocupa todo el espacio entre header y footer */
+  flex: 1;
   gap: 20px;
   padding: 20px;
-  height: calc(100vh - 120px); /* altura total menos header+footer */
+  height: calc(100vh - 120px);
 }
 
 /* MediaDisplay ocupa ~75% */
@@ -49,7 +49,7 @@
 
 /* Playlist / Queue section (sidebar) */
 .playlist-section {
-  flex: 0 0 22%; /* ocupa ~22% del ancho */
+  flex: 0 0 22%; 
   max-width: 300px;
   background-color: #181818;
   padding: 16px;
@@ -68,21 +68,21 @@
   border-top: 1px solid #333;
   position: sticky;
   bottom: 0;
-  position: relative; /* 👈 necesario para ubicar el botón toggle */
+  position: relative; 
 }
 
 /* Botón cerrar/abrir minimalista */
 .player-toggle-btn {
   position: absolute;
-  top: 1.5px;     /* más pegado al borde superior */
-  right: 1.5px;   /* más pegado al borde derecho */
+  top: 1.5px;     
+  right: 1.5px;   
   background: none;
   border: none;
   color: #fff;
-  font-size: 1rem; /* un poco más grande para visibilidad */
+  font-size: 1rem; 
   cursor: pointer;
   transition: color 0.2s ease, transform 0.2s ease;
-  z-index: 10; /* asegura que quede por encima del volumen */
+  z-index: 10; 
 }
 
 .player-toggle-btn:hover {
