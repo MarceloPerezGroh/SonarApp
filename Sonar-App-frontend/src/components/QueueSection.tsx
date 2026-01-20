@@ -1,33 +1,43 @@
-// src/components/QueueSection.tsx
 import React from "react";
 import { usePlayer } from "../context/PlayerContext";
 import "../styles/components/queue-section.css";
 
 const QueueSection: React.FC = () => {
-  const { queue, removeFromQueue } = usePlayer();
+  const { queue, play, removeFromQueue } = usePlayer();
+
+  if (queue.length === 0) return null;
 
   return (
     <div className="queue-section">
-      <h2 className="queue-title">Cola de reproducción</h2>
-      {queue.length === 0 ? (
-        <p className="queue-empty">No hay temas en cola</p>
-      ) : (
+      <h3 className="queue-title">Mi lista</h3>
+      <div className="queue-scroll">
         <ul className="queue-list">
           {queue.map((track) => (
             <li key={track.id} className="queue-item">
-              <span className="queue-track">
-                {track.title} {track.artist && `- ${track.artist}`}
+              <span className="track-title">
+                {track.title}
+                {track.artist && ` - ${track.artist}`}
               </span>
-              <button
-                className="queue-remove"
-                onClick={() => removeFromQueue(track.id)}
-              >
-                ❌
-              </button>
+              <div className="queue-actions">
+                <button
+                  className="btn-play"
+                  onClick={() => play(track)}
+                  aria-label={`Reproducir ${track.title}`}
+                >
+                  ▶
+                </button>
+                <button
+                  className="btn-remove"
+                  onClick={() => removeFromQueue(track.id)}
+                  aria-label={`Eliminar ${track.title}`}
+                >
+                  ✕
+                </button>
+              </div>
             </li>
           ))}
         </ul>
-      )}
+      </div>
     </div>
   );
 };

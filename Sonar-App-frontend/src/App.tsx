@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { PlayerProvider, usePlayer } from "./context/PlayerContext";
 import TopBar from "./layout/TopBar";
 import PlayerControls from "./components/PlayerControls";
-import QueueView from "./components/QueueView";
+import QueueSection from "./components/QueueSection";
 import MediaDisplay from "./components/MediaDisplay";
 import { VolumeIcon } from "./icons";
 
@@ -40,43 +40,45 @@ const VolumeSlider: React.FC = () => {
   );
 };
 
-const App: React.FC = () => {
-  // 👇 estado para abrir/cerrar el footer (por defecto abierto)
-  const [isFooterOpen, setIsFooterOpen] = useState(true);
+// 👇 Wrapper para rutas con acceso al contexto
+const HomeLayout: React.FC = () => {
+  const { queue } = usePlayer();
 
+  return (
+    <>
+      <section className="media-section">
+        <MediaDisplay />
+      </section>
+
+      {/* Solo renderiza el aside si hay temas en cola */}
+      {queue.length > 0 && (
+        <aside className="queue-section">
+          <QueueSection />
+        </aside>
+      )}
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  const [isFooterOpen, setIsFooterOpen] = useState(true);
   const toggleFooter = () => setIsFooterOpen(!isFooterOpen);
 
   return (
     <PlayerProvider>
       <div className="app">
-        {/* Header fijo */}
         <TopBar />
 
-        {/* Contenido central según ruta */}
         <main className="app-main">
           <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <section className="media-section">
-                    <MediaDisplay />
-                  </section>
-                  <aside className="queue-section">
-                    <QueueView />
-                  </aside>
-                </>
-              }
-            />
+            <Route path="/" element={<HomeLayout />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/licencia" element={<LicenciaPage />} />
             <Route path="/version" element={<VersionPage />} />
           </Routes>
         </main>
 
-        {/* Footer fijo */}
         <footer className="app-footer">
-          {/* Botón cerrar/abrir en esquina superior derecha */}
           <button
             className="player-toggle-btn"
             onClick={toggleFooter}
@@ -85,7 +87,6 @@ const App: React.FC = () => {
             {isFooterOpen ? "✕" : "▾"}
           </button>
 
-          {/* Contenido del footer (solo UI, no afecta reproducción) */}
           {isFooterOpen && (
             <>
               <div className="player-controls-wrapper">
