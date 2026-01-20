@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../auth/authContext";
 import "../styles/components/playlist-form.css";
-
 
 interface Playlist {
   id: string;
@@ -13,7 +11,6 @@ interface Props {
 }
 
 function PlaylistForm({ onCreated }: Props) {
-  const { token } = useAuth();
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
@@ -26,7 +23,6 @@ function PlaylistForm({ onCreated }: Props) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ name }),
       });
@@ -59,3 +55,4 @@ function PlaylistForm({ onCreated }: Props) {
 }
 
 export default PlaylistForm;
+
