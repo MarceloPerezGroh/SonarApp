@@ -124,16 +124,31 @@ const TopBar: React.FC = () => {
           <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
           <Link to="/licencia" onClick={() => setMenuOpen(false)}>Licencia</Link>
           <Link to="/version" onClick={() => setMenuOpen(false)}>Versión</Link>
+          <Link to="/comofunciona" onClick={() => setMenuOpen(false)}>Cómo funciona</Link>
         </div>
-
-        <hr className="sidebar-divider" />
 
         <div className="sidebar-text">
-          Acerca de <span className="sonar-highlight">SONAR</span> Comunicarte con MarceloPerezGroh
-          Desarrollador · Condiciones · Privacidad · Políticas y seguridad · Cómo funciona SONAR ·
-          Prueba funciones nuevas.
+          <span className="sonar-highlight">SONAR</span>
+          <br />
+          <span className="sidebar-author">
+            Desarrollado por{" "}
+            <a
+              href="https://github.com/MarceloPerezGroh"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @MarceloPerezGroh
+            </a>
+          </span>
+          <br />
+          <span className="sidebar-muted">
+             Proyecto experimental
+             <br />
+             Uso demostrativo
+          </span>
         </div>
-        <p className="sidebar-footer">© 2026 Dev MarceloPerezGroh</p>
+      <p className="sidebar-footer">© 2026 SONAR · Demo</p>
+
       </nav>
 
       {showUpload && <UploadTrackForm />}

@@ -29,7 +29,7 @@ const VersionPage: React.FC = () => {
       <p>
         Versión actual: <strong>v1.9.0</strong>
         <br />
-        Última actualización: <strong>Enero - 2026</strong>
+        Última actualización: <strong> - 2026 -</strong>
       </p>
     </div>
   );

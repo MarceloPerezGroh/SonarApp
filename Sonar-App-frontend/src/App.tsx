@@ -10,6 +10,7 @@ import { VolumeIcon } from "./icons";
 import AboutPage from "./pages/AboutPage";
 import LicenciaPage from "./pages/LicenciaPage";
 import VersionPage from "./pages/VersionPage";
+import ComoFunciona from "./pages/ComoFunciona";
 
 import "./styles/_variables.css";
 import "./styles/_base.css";
@@ -75,6 +76,7 @@ const App: React.FC = () => {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/licencia" element={<LicenciaPage />} />
             <Route path="/version" element={<VersionPage />} />
+            <Route path="/comoFunciona" element={<ComoFunciona />} />
           </Routes>
         </main>
 

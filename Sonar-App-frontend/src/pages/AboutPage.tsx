@@ -22,8 +22,8 @@ const AboutPage: React.FC = () => {
 
       <p>
         <strong>SONAR</strong> fue desarrollada por{" "}
-        <strong>Marcelo Pérez Groh</strong>, aplicando buenas prácticas de
-        desarrollo frontend, organización de componentes y diseño de interfaces,
+        <strong>Marcelo Pérez Groh</strong>, aplicando prácticas de
+        desarrollo organización de componentes y diseño de interfaces,
         con foco en la calidad del código y la experiencia de usuario.
       </p>
     </div>

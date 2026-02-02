@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css"; // estilos globales
-import { AuthProvider } from "./hooks/useAuth"; // 👈 importamos el provider
+import { AuthProvider } from "./hooks/useAuth"; 
 
 const rootElement = document.getElementById("root");
 
