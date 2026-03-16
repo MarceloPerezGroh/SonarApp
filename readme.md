@@ -151,3 +151,14 @@ SONAR está preparado para incorporar fácilmente:
 ## Autor
 
 Proyecto desarrollado por [Marcelo Perez Groh](https://github.com/MarceloPerezGroh)
+## Licencia
+
+**Aviso importante:**  
+Este proyecto está bajo la licencia MIT.
+
+De acuerdo con los términos de la licencia, cualquier redistribución (incluidas las versiones compiladas o modificadas) requiere que se conserve el aviso de derechos de autor original y el texto completo de la licencia.
+
+Copyright © 2026 Marcelo Perez Groh.  
+Todos los derechos reservados.
+
+Para más detalles, consulta el archivo [LICENSE](LICENSE).
