@@ -1,8 +1,8 @@
-# SONAR – Full Stack Music Streaming App 🎧
+# SONAR – Demo Music Streaming App 🎧
 
 ## Descripción
 
-SONAR es una aplicación web **full stack** inspirada en Spotify, desarrollada como proyecto de portfolio técnico.  
+SONAR es una aplicación web Demo Music Streaming App 🎧, desarrollada como proyecto de portfolio técnico.  
 El objetivo del proyecto es simular una aplicación de streaming musical realista, poniendo énfasis en la **arquitectura**, la **organización del código** y la **extensibilidad**, más allá de la interfaz visual.
 
 La aplicación está pensada como una base escalable, preparada para crecer con nuevas funcionalidades sin necesidad de reestructurar el proyecto.
@@ -150,4 +150,4 @@ SONAR está preparado para incorporar fácilmente:
 
 ## Autor
 
-Proyecto desarrollado como **Marcelo Perez Groh**, con foco en arquitectura, diseño y calidad de código.
+Proyecto desarrollado por [Marcelo Perez Groh](https://github.com/MarceloPerezGroh)
