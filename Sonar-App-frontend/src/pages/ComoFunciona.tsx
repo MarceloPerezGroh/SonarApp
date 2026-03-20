@@ -39,8 +39,6 @@ const ComoFunciona: React.FC = () => {
         enfoque evita la redistribución de contenido protegido y permite la
         experimentación segura del proyecto sin infringir derechos de autor.
       </p>
-
-      <p><strong>SONAR</strong></p>
         
     </div>
   );

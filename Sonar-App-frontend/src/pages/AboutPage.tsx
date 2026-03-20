@@ -3,7 +3,7 @@ import "../styles/page.css";
 const AboutPage: React.FC = () => {
   return (
     <div className="page-container">
-      <h1>About</h1>
+      <h1>Acerca de</h1>
 
       <p>
         <strong>SONAR</strong> es una aplicación de reproducción y exploración
@@ -22,9 +22,9 @@ const AboutPage: React.FC = () => {
 
       <p>
         <strong>SONAR</strong> fue desarrollada por{" "}
-        <strong>Marcelo Pérez Groh</strong>, aplicando prácticas de
-        desarrollo organización de componentes y diseño de interfaces,
-        con foco en la calidad del código y la experiencia de usuario.
+        <strong>Marcelo Pérez Groh</strong>, aplicando prácticas de desarrollo,
+        organización de componentes y diseño de interfaces, con foco en la
+        calidad del código y la experiencia de usuario.
       </p>
     </div>
   );

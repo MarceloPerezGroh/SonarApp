@@ -120,7 +120,7 @@ const TopBar: React.FC = () => {
         </button>
 
         <div className="sidebar-links">
-          <Link to="http://localhost:5173/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/home" onClick={() => setMenuOpen(false)}>Home</Link>
           <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
           <Link to="/licencia" onClick={() => setMenuOpen(false)}>Licencia</Link>
           <Link to="/version" onClick={() => setMenuOpen(false)}>Versión</Link>

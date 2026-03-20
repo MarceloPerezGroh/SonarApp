@@ -4,7 +4,7 @@ import "../styles/page.css";
 const VersionPage: React.FC = () => {
   return (
     <div className="page-container">
-      <h1>Version</h1>
+      <h1>Versión</h1>
 
       <p>
         <strong>SONAR</strong> se encuentra actualmente en su versión{" "}
@@ -29,7 +29,7 @@ const VersionPage: React.FC = () => {
       <p>
         Versión actual: <strong>v1.9.0</strong>
         <br />
-        Última actualización: <strong> - 2026 -</strong>
+        Última actualización: <strong> - 2026 - </strong>
       </p>
     </div>
   );
