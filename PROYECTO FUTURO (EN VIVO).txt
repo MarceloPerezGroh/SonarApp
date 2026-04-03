@@ -1,7 +1,0 @@
-sonar la app que cree , podria agregarle en vivo una seccion que agarre links en vivo de musica de youtube.
-____________________________________________________________________________________
-Para el siguiente paso con base de datos, cuando llegues ahí, para una app de música lo más usado es:
-
-Supabase ? gratuito, fácil de integrar con React, tiene storage para archivos de audio
-Firebase ? también popular, muy bueno para proyectos de este tipo
-Cloudinary ? específico para media (audio, video, imágenes), se complementa bien con cualquiera de las anteriores
