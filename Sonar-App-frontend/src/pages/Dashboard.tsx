@@ -8,7 +8,7 @@ import "./Dashboard.css";
 const Dashboard: React.FC = () => {
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
 
-  // 🔑 Tipamos y transformamos los datos del JSON
+  // Tipamos y transformamos los datos del JSON
   const tracks: Track[] = (tracksData as { tracks: { id: number; title: string; artist?: string; src: string }[] }).tracks.map(
     (t) => ({
       id: t.id,

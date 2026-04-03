@@ -16,7 +16,7 @@ import "./styles/_variables.css";
 import "./styles/_base.css";
 import "./App.css";
 
-// 👇 Slider de volumen conectado al contexto
+// Slider de volumen conectado al contexto
 const VolumeSlider: React.FC = () => {
   const { volume, setVolume } = usePlayer();
 
@@ -41,7 +41,7 @@ const VolumeSlider: React.FC = () => {
   );
 };
 
-// 👇 Wrapper para rutas con acceso al contexto
+// Wrapper para rutas con acceso al contexto
 const HomeLayout: React.FC = () => {
   const { queue } = usePlayer();
 

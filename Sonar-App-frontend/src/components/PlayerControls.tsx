@@ -38,7 +38,7 @@ export default function PlayerControls() {
   // Progreso en porcentaje
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
-  // 👇 Actualizar variable CSS externa en cada cambio de progreso
+  // Actualizar variable CSS externa en cada cambio de progreso
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty("--progress", `${progress}%`);

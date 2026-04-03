@@ -3,7 +3,7 @@ import { Track } from "../types/Track";
 import { usePlayer } from "../context/PlayerContext";
 import tracksData from "../data/tracks.json";
 
-// 👇 Función auxiliar para convertir cualquier campo a string
+// Función auxiliar para convertir cualquier campo a string
 const toText = (field: string | { name: string } | undefined): string => {
   if (typeof field === "string") return field;
   if (field && typeof field === "object" && "name" in field) return field.name;

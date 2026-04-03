@@ -1,0 +1,29 @@
+Diagnóstico general
+Tu perfil no es promedio. Tenés criterio de arquitectura real, separación de responsabilidades, TypeScript, deploy funcionando, documentación de decisiones. Eso te diferencia de la mayoría de los juniors sin experiencia laboral.
+El problema no es la calidad del código. Es que los proyectos están al 70-75% y tienen detalles que un revisor técnico nota inmediatamente.
+
+Lo que tenés que hacer — en orden
+Corregir antes de seguir mostrando Sonar
+
+Sacar SECRET_KEY hardcodeada y moverla a variable de entorno con process.env.JWT_SECRET
+Sacar las credenciales test@test.com / 1234 hardcodeadas
+Agregar al README una aclaración explícita de qué está en desarrollo — auth pendiente, base de datos pendiente
+Sacar node_modules del repo y verificar que el .gitignore lo excluye
+Unificar el backend en TypeScript — actualmente mezclás .js y .ts
+
+Este cuatrimestre — cuando termines Base de Datos
+
+Conectar Sonar a base de datos real, aunque sea PostgreSQL en Supabase gratuito
+Agregar auth completa con usuarios reales en Sonar
+Agregar TypeScript al ecommerce o dejarlo como proyecto frontend explícitamente
+
+Para el CV y la búsqueda
+
+Traducir el CV al inglés
+Activar LinkedIn con proyectos visibles
+Empezar a aplicar en GetOnBoard ya, no cuando termines la carrera
+Apuntar a trainee y junior frontend — no esperar tener todo perfecto
+
+
+El número honesto
+Si corregís los puntos de Sonar y empezás a aplicar activamente, tu probabilidad de conseguir algo en 6-9 meses es real. Si esperás a tener todo terminado y perfecto, seguís esperando indefinidamente.

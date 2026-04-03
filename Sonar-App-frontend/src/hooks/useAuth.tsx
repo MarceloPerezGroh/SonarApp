@@ -14,7 +14,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.getItem("token")
   );
 
-  // 👇 Validar token al montar
+  // Validar token al montar
   useEffect(() => {
     const validateToken = async () => {
       if (!token) return;

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const TrackItem: React.FC<Props> = ({ track, onSelect }) => {
-  // 👇 resolvemos artista de forma segura
+  // resolvemos artista de forma segura
   const artistName: string =
     typeof track.artist === "string"
       ? track.artist

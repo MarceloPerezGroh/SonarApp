@@ -39,7 +39,9 @@ const TopBar: React.FC = () => {
         </button>
 
         <div className="logo">
-          <img src="/images/logo1PNG.png" alt="App Logo" />
+          <Link to="/">
+            <img src="/images/logo1PNG.png" alt="App Logo" />
+          </Link>
         </div>
       </div>
 
